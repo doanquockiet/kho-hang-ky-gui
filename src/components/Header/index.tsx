@@ -59,7 +59,7 @@ const Header = () => {
                         </button>
                         <input
                             autoComplete="off"
-                            placeholder="Tìm kiếm sản phẩm trên Chợ Tốt"
+                            placeholder="Tìm kiếm sản phẩm trên Kho Hàng Ký Gửi"
                             id="searchInput"
                             type="text"
                             className="header__search-input"
