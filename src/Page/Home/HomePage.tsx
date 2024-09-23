@@ -1,5 +1,6 @@
 
 import Banner from '../../components/Banner'
+import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header'
 
 const HomePage = () => {
@@ -7,6 +8,7 @@ const HomePage = () => {
     <div>
       <Header/>
       <Banner/>
+      <Footer/>
     </div>
   )
 }

@@ -64,6 +64,7 @@ body {
 
     transition: height 0.2s;
     height: 74px;
+    position: relative;
 }
 
 .header__app-wrapper {
