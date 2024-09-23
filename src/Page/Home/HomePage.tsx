@@ -11,9 +11,8 @@ const HomePage = () => {
       <Banner/>
       <Footer/>
       <Tinmoi/>
-
     </div>
   )
 }
-
+// asdfghjkl
 export default HomePage
