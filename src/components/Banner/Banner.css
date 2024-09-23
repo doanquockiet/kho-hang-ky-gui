@@ -1,0 +1,32 @@
+.mini-menu {
+    outline: none;
+    flex: 0 0 auto;
+    min-height: 60px;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.mini-menu .mini-menu-a {
+    color: #000;
+    display: flex;
+    outline: none;
+    position: relative;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    flex-direction: column;
+    padding-top: 7px;
+    text-align: center;
+}
+
+.mini-menu-img img {
+    display: block;
+    height: 50px;
+    width: 50px;
+}
+
+.mini-menu-span span {
+    color: #000;
+    font-size: 14px;
+    text-align: center;
+}
