@@ -1,0 +1,63 @@
+.title {
+    margin-bottom: 10px;
+
+}
+
+.wrap-product a {
+    text-decoration: none;
+}
+
+.title h4 {
+    font-weight: 600px;
+    font-size: 24px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.product-item {
+    margin-top: 30px;
+
+    justify-content: center;
+    text-align: center;
+    width: 250px;
+}
+
+.image-product img {
+    margin-top: 20px;
+    height: 180px;
+    width: 166px;
+}
+
+.infor-product {
+    margin-top: 30px;
+}
+
+.infor-product p {
+    color: #000;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.infor-product span {
+    font-size: 16px;
+    color: #f70000;
+    font-weight: 600;
+
+}
+
+.address {
+    margin-top: 2px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.address p {
+    color: #000;
+    font-size: 16px;
+}
+
+.time-update {
+    margin-right: 20px;
+}
