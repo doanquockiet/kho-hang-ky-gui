@@ -1,10 +1,11 @@
 
 import Banner from '../../components/Banner'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from '../../components/Header'
 
 const HomePage = () => {
   return (
     <div>
+      <Header/>
       <Banner/>
     </div>
   )
