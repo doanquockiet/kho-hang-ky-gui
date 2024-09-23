@@ -9,8 +9,8 @@ const HomePage = () => {
     <div>
       <Header/>
       <Banner/>
-      <Footer/>
       <Tinmoi/>
+      <Footer/>
     </div>
   )
 }
