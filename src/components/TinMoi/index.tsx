@@ -34,6 +34,7 @@ const Tinmoi = () => {
                 </div>
                 <div className="infor-product">
                   <p>{product.name}</p>
+                  
                   <span className="price-product">{product.price}</span>
                 </div>
                 <div className="address">
