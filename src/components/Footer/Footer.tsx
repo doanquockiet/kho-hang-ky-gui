@@ -6,7 +6,6 @@ const Footer = () => {
       <div className="aw__d16wu053">
         <div className="aw__catkylo">
           <section className="aw__c9g90xh">
-
             {/* Support Section */}
             <div className="aw__i1ce1r9u">
               <p className="aw__h1klxoqy">Hỗ trợ khách hàng</p>

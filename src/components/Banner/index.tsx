@@ -2,7 +2,9 @@
 import { Carousel, Image, Container } from 'react-bootstrap';
 import './Banner.css'
 import mini_item from '../../assets/sanpham/sanpham2.svg';
-import banner1 from '../../assets/banner/banner5.jpg'
+import banner1 from '../../assets/banner/1.jpg'
+import banner2 from '../../assets/banner/2.jpg'
+import banner3 from '../../assets/banner/3.jpg'
 const Banner = () => {
   const images = [
     {
@@ -10,12 +12,12 @@ const Banner = () => {
       alt: 'iP16',
     },
     {
-      src: banner1,
+      src: banner2,
       alt: 'biz_veh_Ecom_banner',
     },
     {
-      src: banner1,
-      alt: 'pty_branding_rental_0724_0924',
+      src: banner3,
+      alt: 'biz_veh_Ecom_banner',
     },
   ];
 
@@ -25,16 +27,16 @@ const Banner = () => {
         {images.map((img, index) => (
           <Carousel.Item key={index}>
             <Image
-              className="d-block w-100 mt-4"
+              className="d-block w-100  mt-4"
               src={img.src}
               alt={img.alt}
-              style={{ maxHeight: 'auto', objectFit: 'contain' }}
+              style={{ maxHeight: 'auto',maxWidth: 'auto', objectFit: 'contain' }}
               
             />
           </Carousel.Item>
         ))}
       </Carousel>
-        <div className='mini-menu'>
+        <div className='mini-menu mt-4'>
           <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
             <img src={mini_item}/>
