@@ -38,8 +38,7 @@ const Tinmoi = () => {
                   <img src={product.image} alt={product.name} />
                 </div>
                 <div className="infor-product">
-                  <p>{product.name}</p>
-                  
+                  <p>{product.name}</p>  
                   <span className="price-product">{product.price}</span>
                 </div>
                 <div className="address">
