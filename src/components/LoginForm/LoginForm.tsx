@@ -1,5 +1,6 @@
 import  {  useState } from "react";
 import styled from "styled-components";
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -717,7 +718,16 @@ const LoginForm: React.FC = () => {
             </Components.Button>
             {error && <p className="error">{error}</p>}
             <p className="or">--or--</p>
-          
+            <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+  <GoogleLogin
+    onSuccess={credentialResponse => {
+      console.log(credentialResponse);
+    }}
+    onError={() => {
+      console.log('Login Failed');
+    }}
+  />
+</GoogleOAuthProvider>
           </Components.Form>
         </Components.SignInContainer>
         <Components.OverlayContainer signinIn={signIn}>
