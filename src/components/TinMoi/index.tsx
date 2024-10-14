@@ -1,5 +1,4 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import productImage from '../../assets/sanpham/sanpham2.svg';
 import './TinMoi.css';
 import ao1 from '../../assets/sanpham/ao1.jpg'
 import ao2 from '../../assets/sanpham/ao2.jpg'
