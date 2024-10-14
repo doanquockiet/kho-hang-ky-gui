@@ -13,8 +13,7 @@ const HomePage = () => {
       <Header/>
       <Banner/>
       <Tinmoi/>
-      <Footer/>
-      x
+      <Footer/>  
     </div>
   )
 }
