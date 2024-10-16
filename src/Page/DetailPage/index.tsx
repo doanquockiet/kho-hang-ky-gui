@@ -13,10 +13,10 @@ import {
   Label,
 } from "reactstrap";
 import { Rating } from "react-simple-star-rating";
-import { useState } from "react";
+
 import './DetailPage.css';
 
-const DetailPage = ({ addToBasket }) => {
+const DetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate(); // Create a navigate function
   const { product } = location.state || {};
@@ -26,9 +26,7 @@ const DetailPage = ({ addToBasket }) => {
   }
 
   const quantityOptions = Array.from(Array(10).keys());
-  const [selectedSize, setSelectedSize] = useState('M');
-  const [selectedColor, setSelectedColor] = useState(product.image);
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
 
   return (
     <div className="product-details">
@@ -56,22 +54,13 @@ const DetailPage = ({ addToBasket }) => {
             <div>
               <CardSubtitle style={{fontSize: '20px'}}>Sizes:</CardSubtitle>
               <div className="sizes">
-                <span
-                  className={`size-option ${selectedSize === "M" ? "active" : ""}`}
-                  onClick={() => setSelectedSize("M")}
-                >
-                  M
-                </span>
+                
               </div>
             </div>
             <div>
               <CardSubtitle></CardSubtitle>
               <div className="colours">
-                <img
-                  src={selectedColor}
-                  alt={selectedColor}
-                  style={{ width: '60px', height: '60px' }}
-                />
+                
               </div>
               <FormGroup className="quantity">
                 <Label for="quantitySelect">Selected Quantity</Label>
@@ -79,8 +68,7 @@ const DetailPage = ({ addToBasket }) => {
                   type="select"
                   name="quantity"
                   id="quantitySelect"
-                  value={selectedQuantity}
-                  onChange={(e) => setSelectedQuantity(Number(e.target.value))}
+                  
                 >
                   {quantityOptions.map((number) => (
                     <option key={number} value={number + 1}>
@@ -95,12 +83,7 @@ const DetailPage = ({ addToBasket }) => {
                 color="primary"
                 className="add-to-basket-button"
                 onClick={() => {
-                  addToBasket({
-                    ...product,
-                    quantity: selectedQuantity,
-                    size: selectedSize,
-                    color: selectedColor,
-                  });
+               
                 }}
                 style={{ flex: 1 }} // Make button take up available space
               >
