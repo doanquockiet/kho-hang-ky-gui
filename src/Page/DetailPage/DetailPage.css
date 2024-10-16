@@ -1,0 +1,123 @@
+.product-details {
+    padding: 20px;
+    background-color: #ffffff; /* Light background for clarity */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: max-content;
+  }
+  
+  .image-wrapper {
+    text-align: center;
+  }
+  
+  .card-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Rounded image */
+  }
+  
+  .product-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px; /* Spacing below title */
+  }
+  
+  .product-description {
+    margin-bottom: 15px; /* Spacing below description */
+    font-size: 1rem; /* Font size for description */
+  }
+  
+  .rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* Space below rating */
+  }
+  
+  .product-price {
+    font-size: 1.5rem; /* Larger price font */
+    color: #007bff; /* Primary color for price */
+  }
+  
+  .sizes, .colours {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .size-option {
+    padding: 8px 12px;
+    margin: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .size-option:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .size-option.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .quantity {
+    margin: 15px 0;
+  }
+  
+  .button-container {
+    display: flex; /* Use flexbox to align buttons horizontally */
+    justify-content: space-between; /* Space between buttons */
+    margin-top: 15px; /* Optional margin above buttons */
+  }
+  
+  .button-container .btn {
+    flex: 1; /* Make buttons grow to fill available space */
+  }
+  
+
+  .add-to-basket-button {
+    background-color: #007bff; /* Primary button color */
+    border-color: #007bff;
+    transition: background-color 0.3s;
+  }
+  
+  .add-to-basket-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  .back-to-home-button{
+    background-color: #da0f20; /* Primary button color */
+    border-color: #da0f20;
+    transition: background-color 0.3s;
+  }
+  .back-to-home-button:hover{
+    background-color:#c94954;
+    border-color:#c94954;
+  }
+
+  
+.add-to-cart-button1{
+    width: 100%;
+    background-color: rgb(245, 48, 9);
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 10px;
+    
+  }
+  .order-button-1 {
+    width: 100%;
+    background-color: rgb(76, 60, 225);
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  

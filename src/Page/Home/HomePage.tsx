@@ -11,6 +11,7 @@ const HomePage = () => {
       <Header/>
       <Banner/>
       <Tinmoi/>
+      
       <Footer/>  
     </div>
   )

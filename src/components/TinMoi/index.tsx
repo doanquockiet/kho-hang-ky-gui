@@ -1,4 +1,5 @@
 import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './TinMoi.css';
 import ao1 from '../../assets/sanpham/ao1.jpg'
 import ao2 from '../../assets/sanpham/ao2.jpg'
@@ -7,6 +8,7 @@ import ao4 from '../../assets/sanpham/ao4.jpg'
 import ao5 from '../../assets/sanpham/clmgiz.jpg'
 import quan1 from '../../assets/sanpham/quan1.jpg'
 import quan2 from '../../assets/sanpham/quan2.jpg'
+
 const Tinmoi = () => {
   const products = [
     { id: 1, name: 'Sản phẩm 1', price: '100,000', location: 'Vĩnh Long', time: '24 Giờ Trước',image: ao1 },
@@ -30,15 +32,15 @@ const Tinmoi = () => {
         <h4>Tin Mới Đăng</h4>
       </div>
       <Row>
-        {products.map((product, index) => (
-          <Col md={2} key={index} className="mb-4 wrap-product">
-            <a href="#">
+        {products.map((product) => (
+          <Col md={2} key={product.id} className="mb-4 wrap-product">
+            <Link to={`/product/${product.id}`} state={{ product }}>  {/* Passing product details via Link */}
               <div className="product-item">
                 <div className="image-product">
                   <img src={product.image} alt={product.name} />
                 </div>
                 <div className="infor-product">
-                  <p>{product.name}</p>  
+                  <p>{product.name}</p>
                   <span className="price-product">{product.price}</span>
                 </div>
                 <div className="address">
@@ -50,7 +52,7 @@ const Tinmoi = () => {
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
           </Col>
         ))}
       </Row>
