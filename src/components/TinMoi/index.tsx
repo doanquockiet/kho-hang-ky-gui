@@ -34,14 +34,14 @@ const Tinmoi = () => {
       <Row>
         {products.map((product) => (
           <Col md={2} key={product.id} className="mb-4 wrap-product">
-            <Link to={`/product/${product.id}`} state={{ product }}>  {/* Passing product details via Link */}
+            <Link to={`/product/${product.id}`} state={{ product, products }}> {/* Truyền cả sản phẩm và danh sách sản phẩm */}
               <div className="product-item">
                 <div className="image-product">
                   <img src={product.image} alt={product.name} />
                 </div>
                 <div className="infor-product">
                   <p>{product.name}</p>
-                  <span className="price-product">{product.price}</span>
+                  <span className="price-product">{product.price} VNĐ</span>
                 </div>
                 <div className="address">
                   <div className="time-update">
