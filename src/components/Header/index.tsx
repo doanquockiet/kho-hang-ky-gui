@@ -9,7 +9,7 @@ const Header = () => {
             <div className="header__app-wrapper">
                 {/* Logo Section */}
                 <div className="header__logo-container">
-                    <a className="header__logo-link" href="https://www.facebook.com/wanfreelancefotone">
+                    <a className="header__logo-link" href="/">
                         <picture>
 
                             <img
