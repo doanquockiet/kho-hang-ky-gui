@@ -218,7 +218,7 @@ const Header = () => {
                     </div>
                 </div >
                 <a className="aw__b1358qut primary r-normal medium w-bold i-left aw__h1gb9yk"
-                    href="#"
+                    href="/add-product"
                     rel="nofollow">
                     <svg xmlns="http://www.w3.org/2000/svg" data-type="monochrome" viewBox="0 0 23.228 23.227" width="1em" height="1em" fill="none">
                         <path
