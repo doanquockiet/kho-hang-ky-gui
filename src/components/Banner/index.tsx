@@ -42,35 +42,35 @@ const Banner = () => {
             <img src={mini_item}/>
             </div>
             <div className="mini-menu-span">
-              <span>Quần Áo</span>
+              <span>Quần Nữ</span>
             </div>
             </a>
             <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
             <img src={mini_item}/>            </div>
             <div className="mini-menu-span">
-              <span>Giày Dép</span>
+              <span>Áo Nữ</span>
             </div>
             </a>
             <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
             <img src={mini_item}/>            </div>
             <div className="mini-menu-span">
-              <span>Mũ</span>
+              <span>Quần Nam</span>
             </div>
             </a>
-            <a href="" className='mini-menu-a'>
+            {/* {/* <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
             <img src={mini_item}/>            </div>
             <div className="mini-menu-span">
               <span>Balo</span>
             </div>
-            </a>
+            </a> */}
             <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
             <img src={mini_item}/>            </div>
             <div className="mini-menu-span">
-              <span>Phụ Kiện</span>
+              <span>Áo Nam</span>
             </div>
             </a>
             <a href="" className='mini-menu-a'>
@@ -78,7 +78,7 @@ const Banner = () => {
             <img src={mini_item}/>            </div>
             <div className="mini-menu-span">
               <span>Khác</span>
-            </div>
+            </div> 
             </a>
             <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
