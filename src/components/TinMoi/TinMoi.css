@@ -62,3 +62,26 @@
     margin-right: 20px;
 }
 
+.image-product {
+    width: 100%;
+    height: 200px;
+    /* Set a fixed height for the image container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    /* Optional: background color for padding area */
+}
+
+.image-product img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    /* Ensures the entire image fits within the container without cropping */
+}
+
+.card-body .fa-star,
+.card-body .fa-star-half-alt {
+    margin-right: 3px;
+}
