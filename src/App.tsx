@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom'
 import HomePage from './Page/Home/HomePage.js'
 import ResetPassword from './components/LoginForm/ResetPassword';

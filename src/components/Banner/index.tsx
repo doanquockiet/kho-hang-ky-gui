@@ -1,4 +1,4 @@
-import React from 'react'; 
+ 
 import { Carousel, Image, Container } from 'react-bootstrap';
 import './Banner.css'
 import banner1 from '../../assets/banner/1.jpg'

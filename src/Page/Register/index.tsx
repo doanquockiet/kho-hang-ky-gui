@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import{ useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +16,7 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   // Handle input changes
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
@@ -25,7 +25,7 @@ const RegisterPage = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
@@ -53,7 +53,7 @@ const RegisterPage = () => {
       // Show success message and redirect to login after a short delay
       setSuccessMessage(response.data.message || 'Registration successful!');
       setTimeout(() => navigate('/login'), 2000);
-    } catch (error) {
+    } catch (error:any) {
       // Display error message from server or a generic error
       setError(error.response?.data?.message || 'Registration failed');
     }
