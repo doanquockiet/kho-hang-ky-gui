@@ -2,7 +2,7 @@ import './styleHeader.css'; // Linking the CSS file for styling
 import 'bootstrap/dist/css/bootstrap.min.css';
 import img from '../../assets/logo.jpg'
 import { NavLink } from 'react-router-dom';
-
+import React from 'react';
 const Header = () => {
     return (
         <header className="header">

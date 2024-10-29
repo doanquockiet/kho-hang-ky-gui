@@ -11,6 +11,7 @@ interface Product {
   rating: number;
   quantity: number;
   size: string;
+  price: string;  // Added price field
 }
 
 const Tinmoi: React.FC = () => {
@@ -27,6 +28,7 @@ const Tinmoi: React.FC = () => {
           rating: product.rating,
           quantity: product.quantity,
           size: product.size,
+          price: product.price,  // Extract price
         }));
         setProducts(filteredProducts);
       } catch (error) {
@@ -37,21 +39,19 @@ const Tinmoi: React.FC = () => {
     fetchProducts();
   }, []);
 
-  // Helper function to render star icons based on rating
   const renderStars = (rating: number): JSX.Element[] => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 !== 0;
-    const stars: JSX.Element[] = []; // Specify the type as JSX.Element[]
+    const stars: JSX.Element[] = [];
 
     for (let i = 0; i < fullStars; i++) {
-        stars.push(<i key={i} className="fas fa-star text-warning"></i>);
+      stars.push(<i key={i} className="fas fa-star text-warning"></i>);
     }
     if (halfStar) {
-        stars.push(<i key="half" className="fas fa-star-half-alt text-warning"></i>);
+      stars.push(<i key="half" className="fas fa-star-half-alt text-warning"></i>);
     }
     return stars;
-};
-
+  };
 
   return (
     <Container className="mt-4">
@@ -62,16 +62,17 @@ const Tinmoi: React.FC = () => {
         {products.map((product) => (
           <Col md={4} lg={3} className="mb-4" key={product.id}>
             <Card className="h-100 shadow-sm">
-              <Link to={`/product/${product.id}`} state={{ product, products }} className="text-decoration-none text-dark">
+              <Link to={`/product/${product.id}`} state={{ productId: product.id }} className="text-decoration-none text-dark">
                 <div className="image-product">
                   <Card.Img src={product.image} alt={product.name} />
                 </div>
                 <Card.Body>
                   <Card.Title className="fs-6">{product.name}</Card.Title>
                   <Card.Text className="text-muted mb-2">
-                    {renderStars(product.rating)} {/* Display stars based on rating */}
+                    {renderStars(product.rating)}
                   </Card.Text>
                   <Card.Text>
+                    <strong>Price:</strong> {product.price} VNĐ <br />
                     <strong>Quantity:</strong> {product.quantity} <br />
                     <strong>Size:</strong> {product.size}
                   </Card.Text>
