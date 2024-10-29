@@ -1,10 +1,18 @@
-
+import React from 'react'; 
 import { Carousel, Image, Container } from 'react-bootstrap';
 import './Banner.css'
-import mini_item from '../../assets/sanpham/sanpham2.svg';
 import banner1 from '../../assets/banner/1.jpg'
 import banner2 from '../../assets/banner/2.jpg'
 import banner3 from '../../assets/banner/3.jpg'
+
+import aonu from '../../assets/sanpham/aonu.jpg'
+import quannu from '../../assets/sanpham/quannu.jpg'
+import aonam from '../../assets/sanpham/aonam.jpg'
+import quannam from '../../assets/sanpham/quannam.jpg'
+
+
+
+
 const Banner = () => {
   const images = [
     {
@@ -39,7 +47,7 @@ const Banner = () => {
         <div className='mini-menu mt-4'>
           <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
-            <img src={mini_item}/>
+            <img src={quannu}/>
             </div>
             <div className="mini-menu-span">
               <span>Quần Nữ</span>
@@ -47,14 +55,14 @@ const Banner = () => {
             </a>
             <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
-            <img src={mini_item}/>            </div>
+            <img src={aonu}/>            </div>
             <div className="mini-menu-span">
               <span>Áo Nữ</span>
             </div>
             </a>
             <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
-            <img src={mini_item}/>            </div>
+            <img src={quannam}/>            </div>
             <div className="mini-menu-span">
               <span>Quần Nam</span>
             </div>
@@ -68,25 +76,25 @@ const Banner = () => {
             </a> */}
             <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
-            <img src={mini_item}/>            </div>
+            <img src={aonam}/>            </div>
             <div className="mini-menu-span">
               <span>Áo Nam</span>
             </div>
             </a>
-            <a href="" className='mini-menu-a'>
+            {/* <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
             <img src={mini_item}/>            </div>
             <div className="mini-menu-span">
               <span>Khác</span>
             </div> 
-            </a>
-            <a href="" className='mini-menu-a'>
+            </a> */}
+            {/* <a href="" className='mini-menu-a'>
             <div className='mini-menu-img'>
             <img src={mini_item}/>            </div>
             <div className="mini-menu-span">
               <span>Shop 0đ</span>
             </div>
-            </a>
+            </a> */}
         </div>
     </Container>
   );
