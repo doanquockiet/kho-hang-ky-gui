@@ -119,7 +119,8 @@ const AddProductForm: React.FC = () => {
 
       setSuccessMessage('Sản phẩm đã được thêm thành công!');
       
-      // Reset the form after successful submission
+      console.log("check response", response);
+      
       setName('');
       setPrice('');
       setCategory('áo khoác'); // Reset to default option
