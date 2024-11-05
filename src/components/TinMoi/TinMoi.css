@@ -75,10 +75,11 @@
 }
 
 .image-product img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    /* Ensures the entire image fits within the container without cropping */
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 1000px;
+    object-fit: fill;
 }
 
 .card-body .fa-star,
