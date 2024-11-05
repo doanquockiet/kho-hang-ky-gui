@@ -70,9 +70,13 @@ const DetailPage: React.FC = () => {
               <CardText><strong>Posted:</strong> {product.time}</CardText> */}
               <CardText><strong>Quantity:</strong> {product.quantity}</CardText>
               <CardText><strong>Size:</strong> {product.size}</CardText>
-
+              <a href="https://www.facebook.com/profile.php?id=61567381013103" target="_blank" rel="noopener noreferrer">
+                <Button>
+                  Liên Hệ Ngay
+                </Button>
+              </a>
               <div className="button-container">
-                <Button color="primary" className="add-to-basket-button" onClick={() => {}}>Add to basket</Button>
+                <Button color="primary" className="add-to-basket-button" onClick={() => { }}>Add to basket</Button>
                 <Button color="secondary" className="back-to-home-button" onClick={() => navigate('/')} style={{ marginLeft: '10px' }}>Back to Home</Button>
               </div>
             </CardBody>
