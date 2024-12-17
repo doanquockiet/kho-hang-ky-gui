@@ -1,8 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../config/firebase';
+import { TextField, Button, CircularProgress, Grid, Typography, Box, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 
 // Define the types for the form fields
 interface ProductData {
@@ -19,18 +18,18 @@ interface ProductData {
 const AddProductForm: React.FC = () => {
   const navigate = useNavigate();
   const [name, setName] = useState<string>('');
-  const [price, setPrice] = useState<string>(''); 
+  const [price, setPrice] = useState<string>('');
   const [category, setCategory] = useState<string>('áo khoác'); // Default option
   const [description, setDescription] = useState<string>('');
-  const [rating, setRating] = useState<string>(''); 
+  const [rating, setRating] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(0);
-  const [size, setSize] = useState<string>(''); 
-  const [image, setImage] = useState<File | null>(null); 
-  const [imageUrl, setImageUrl] = useState<string>(''); 
-  const [progress, setProgress] = useState<number>(0); 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); 
-  const [uploadError, setUploadError] = useState<string | null>(null); 
-  const [successMessage, setSuccessMessage] = useState<string | null>(null); 
+  const [size, setSize] = useState<string>('');
+  const [image, setImage] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [progress, setProgress] = useState<number>(0);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const token = localStorage.getItem('token');
 
@@ -47,34 +46,22 @@ const AddProductForm: React.FC = () => {
         return;
       }
 
-      const fileName = `${Date.now()}_${image.name}`;
-      const storageRef = ref(storage, `images/${fileName}`);
-      const uploadTask = uploadBytesResumable(storageRef, image);
-
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setProgress(progress);
-        },
-        (error) => {
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append("upload_preset", "ChoDoCU"); // Thay 'your_upload_preset' bằng preset của bạn trong Cloudinary
+      formData.append("cloud_name", "dkojewwdy");
+      // Gửi yêu cầu lên Cloudinary để upload ảnh
+      axios
+        .post('https://api.cloudinary.com/v1_1/dkojewwdy/image/upload', formData)
+        .then((response) => {
+          setImageUrl(response.data.secure_url); // Lưu URL ảnh từ Cloudinary vào state
+          resolve();
+        })
+        .catch((error) => {
           console.error('Error uploading image:', error);
-          setUploadError('Error uploading image.');
+          setUploadError('Error uploading image to Cloudinary.');
           reject(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref)
-            .then((url) => {
-              setImageUrl(url);
-              resolve();
-            })
-            .catch((error) => {
-              console.error('Error getting download URL:', error);
-              setUploadError('Error getting image URL.');
-              reject(error);
-            });
-        }
-      );
+        });
     });
   };
 
@@ -82,29 +69,34 @@ const AddProductForm: React.FC = () => {
     e.preventDefault();
 
     if (isSubmitting) {
-      return; 
+      return;
     }
-
+    // Kiểm tra số lượng phải lớn hơn 0
+    if (quantity <= 0) {
+      alert('Số lượng phải lớn hơn 0!');
+      return;
+    }
+   
     setIsSubmitting(true);
-    setUploadError(null); 
+    setUploadError(null);
 
     if (!imageUrl && image) {
       try {
         await uploadImage();
       } catch (error) {
         console.error('Error uploading image:', error);
-        setIsSubmitting(false); 
+        setIsSubmitting(false);
         return;
       }
     }
 
     const productData: ProductData = {
       name,
-      price: parseFloat(price), 
+      price: parseFloat(price),
       category,
       description,
-      image: imageUrl, 
-      rating: parseFloat(rating), 
+      image: imageUrl,
+      rating: parseFloat(rating),
       quantity,
       size,
     };
@@ -118,12 +110,10 @@ const AddProductForm: React.FC = () => {
       });
 
       setSuccessMessage('Sản phẩm đã được thêm thành công!');
-      
-      console.log("check response", response);
-      
+
       setName('');
       setPrice('');
-      setCategory('áo khoác'); // Reset to default option
+      setCategory('áo khoác');
       setDescription('');
       setRating('');
       setQuantity(1);
@@ -132,10 +122,9 @@ const AddProductForm: React.FC = () => {
       setImageUrl('');
       setProgress(0);
 
-      // Redirect to the home page after a delay
       setTimeout(() => {
-        navigate('/'); // Redirect to home page
-      }, 2000); // Adjust the delay as needed
+        navigate('/');
+      }, 2000);
     } catch (error) {
       console.error('Error adding product:', error);
     } finally {
@@ -144,129 +133,149 @@ const AddProductForm: React.FC = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h1 className="mb-4">Thêm sản phẩm mới</h1>
+    <Box sx={{ maxWidth: 600, margin: 'auto', marginTop: 5, padding: 3, boxShadow: 3 }}>
+      <Typography variant="h4" gutterBottom align="center">Thêm sản phẩm mới</Typography>
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Tên sản phẩm:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Tên sản phẩm"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </Grid>
 
-        <div className="mb-3">
-          <label className="form-label">Giá:</label>
-          <input
-            type="text" 
-            className="form-control"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
-        </div>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Giá"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+              type="number"
+              inputProps={{
+                min: 0, // Đảm bảo giá trị không dưới 1
+              }}
+            />
+          </Grid>
 
-        <div className="mb-3">
-          <label className="form-label">Loại:</label>
-          <select
-            className="form-control"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          >
-            <option value="áo khoác">Áo khoác</option>
-            <option value="áo thun">Áo thun</option>
-            <option value="quần jeans">Quần jeans</option>
-            <option value="quần âu">Quần âu</option>
-            <option value="quần short">Quần short</option>
-          </select>
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Mô tả:</label>
-          <textarea
-            className="form-control"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Đánh giá:</label>
-          <input
-            type="text" 
-            className="form-control"
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Số lượng:</label>
-          <input
-            type="number"
-            className="form-control"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Size:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={size}
-            onChange={(e) => setSize(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Hình ảnh:</label>
-          <input
-            type="file"
-            className="form-control"
-            onChange={handleImageChange}
-            required
-          />
-        </div>
-
-        {progress > 0 && (
-          <div className="mb-3">
-            <div className="progress">
-              <div
-                className="progress-bar"
-                role="progressbar"
-                style={{ width: `${progress}%` }}
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth required>
+              <InputLabel>Loại</InputLabel>
+              <Select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                label="Loại"
               >
-                Uploading image: {progress}%
-              </div>
-            </div>
-          </div>
-        )}
+                <MenuItem value="áo khoác">Áo khoác</MenuItem>
+                <MenuItem value="áo thun">Áo thun</MenuItem>
+                <MenuItem value="quần jeans">Quần jeans</MenuItem>
+                <MenuItem value="quần âu">Quần âu</MenuItem>
+                <MenuItem value="quần short">Quần short</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
 
-        {uploadError && <p className="text-danger">{uploadError}</p>}
-        {successMessage && <p className="text-success">{successMessage}</p>}
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Mô tả"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+              multiline
+              rows={4}
+            />
+          </Grid>
 
-        <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-          {isSubmitting ? "Adding Product..." : "Add Product"}
-        </button>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Đánh giá"
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              required
+              type="number"
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Số lượng"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              required
+              type="number"
+              inputProps={{
+                min: 1, // Đảm bảo giá trị không dưới 1
+              }}
+            />
+          </Grid>
+
+
+          <Grid item xs={12} sm={12}>
+            <FormControl fullWidth required>
+              <InputLabel>Size</InputLabel>
+              <Select
+                value={size}
+                onChange={(e) => setSize(e.target.value)}
+                label="Size"
+              >
+                <MenuItem value="S">S</MenuItem>
+                <MenuItem value="M">M</MenuItem>
+                <MenuItem value="L">L</MenuItem>
+                <MenuItem value="XL">XL</MenuItem>
+                <MenuItem value="XXL">XXL</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Button variant="contained" component="label" fullWidth>
+              Chọn hình ảnh
+              <input
+                type="file"
+                hidden
+                onChange={handleImageChange}
+                required
+              />
+            </Button>
+          </Grid>
+
+          {progress > 0 && (
+            <Grid item xs={12}>
+              <CircularProgress variant="determinate" value={progress} />
+            </Grid>
+          )}
+
+          {uploadError && <Grid item xs={12}><Typography color="error">{uploadError}</Typography></Grid>}
+          {successMessage && <Grid item xs={12}><Typography color="success">{successMessage}</Typography></Grid>}
+
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Đang thêm sản phẩm..." : "Thêm sản phẩm"}
+            </Button>
+          </Grid>
+        </Grid>
       </form>
 
       {imageUrl && (
-        <div className="mt-4">
-          <h3>Uploaded Image:</h3>
-          <img src={imageUrl} alt="Product" className="img-thumbnail" style={{ width: "200px" }} />
-        </div>
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
+          <Typography variant="h6">Hình ảnh đã tải lên:</Typography>
+          <img src={imageUrl} alt="Product" style={{ width: '200px', marginTop: '10px' }} />
+
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
