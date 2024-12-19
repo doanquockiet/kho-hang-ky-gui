@@ -6,7 +6,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-    const   navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -18,7 +18,7 @@ const LoginPage = () => {
                 const token = response.data.token;
                 localStorage.setItem('token', token); // Save token to localStorage
                 setMessage('Login successful');
-                navigate('/'); 
+                navigate('/');
             }
         } catch (error) {
             setMessage('Login failed. Please check your credentials.');
@@ -26,75 +26,49 @@ const LoginPage = () => {
     };
 
     return (
-        <section className="vh-100" style={{ backgroundColor: '#9A616D' }}>
-            <div className="container py-5 h-100">
-                <div className="row d-flex justify-content-center align-items-center h-100">
-                    <div className="col col-xl-10">
-                        <div className="card" style={{ borderRadius: '1rem' }}>
-                            <div className="row g-0">
-                                <div className="col-md-6 col-lg-5 d-none d-md-block">
-                                    <img 
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                                        alt="login form" 
-                                        className="img-fluid" 
-                                        style={{ borderRadius: '1rem 0 0 1rem' }} 
-                                    />
-                                </div>
-                                <div className="col-md-6 col-lg-7 d-flex align-items-center">
-                                    <div className="card-body p-4 p-lg-5 text-black">
-                                        <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-                                            <div className="d-flex align-items-center mb-3 pb-1">
-                                                <i className="fas fa-cubes fa-2x me-3" style={{ color: '#ff6219' }}></i>
-                                                <span className="h1 fw-bold mb-0">Logo</span>
-                                            </div>
+        <div className="container-fluid vh-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: '#e3f2fd' }}>
+            <div className="card shadow-lg" style={{ width: '400px', borderRadius: '10px' }}>
+                <div className="card-body p-4">
+                    <h3 className="card-title text-center mb-4">Sign In</h3>
+                    {message && <p className="text-danger text-center">{message}</p>}
 
-                                            <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px' }}>Sign into your account</h5>
-
-                                            <div className="form-outline mb-4">
-                                                <input 
-                                                    type="email" 
-                                                    id="form2Example17" 
-                                                    className="form-control form-control-lg" 
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                    required
-                                                />
-                                                <label className="form-label" htmlFor="form2Example17">Email address</label>
-                                            </div>
-
-                                            <div className="form-outline mb-4">
-                                                <input 
-                                                    type="password" 
-                                                    id="form2Example27" 
-                                                    className="form-control form-control-lg" 
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    required
-                                                />
-                                                <label className="form-label" htmlFor="form2Example27">Password</label>
-                                            </div>
-
-                                            <div className="pt-1 mb-4">
-                                                <button className="btn btn-dark btn-lg btn-block" type="submit">Login</button>
-                                            </div>
-
-                                            {message && <p className="text-center">{message}</p>}
-
-                                            <a className="small text-muted" href="#!">Forgot password?</a>
-                                            <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>
-                                                Don't have an account? <a href="/register" style={{ color: '#393f81' }}>Register here</a>
-                                            </p>
-                                            <a href="#!" className="small text-muted">Terms of use.</a>
-                                            <a href="#!" className="small text-muted">Privacy policy</a>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                    <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+                        <div className="mb-3">
+                            <label htmlFor="emailInput" className="form-label">Email Address</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                id="emailInput"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
                         </div>
+                        <div className="mb-3">
+                            <label htmlFor="passwordInput" className="form-label">Password</label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="passwordInput"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary w-100">Login</button>
+                    </form>
+
+                    <div className="text-center mt-3">
+                        <a href="/forgot-password" className="small text-muted">Forgot Password?</a>
+                    </div>
+                    <div className="text-center mt-2">
+                        <p className="small">
+                            Don't have an account? <a href="/register" className="text-primary">Register here</a>
+                        </p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     );
 };
 

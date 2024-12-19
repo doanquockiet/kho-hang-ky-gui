@@ -6,7 +6,7 @@ import './TinMoi.css';
 interface Product {
   id: string;
   name: string;
-  image: string;
+  images: string[]; // Updated to handle multiple images
   rating: number;
   quantity: number;
   size: string;
@@ -30,7 +30,7 @@ const TinMoi: React.FC = () => {
         const fetchedProducts = response.data.map((product: any) => ({
           id: product._id,
           name: product.name,
-          image: product.image,
+          images: product.images, // Handle multiple images
           rating: product.rating,
           quantity: product.quantity,
           size: product.size,
@@ -119,7 +119,7 @@ const TinMoi: React.FC = () => {
           <Col xs={12} md={4} lg={3} className="mb-4" key={product.id}>
             <div className="product-card shadow-sm">
               <div className="image-product">
-                <img src={product.image} alt={product.name} />
+                <img src={product.images[0]} alt={product.name} /> {/* Show the first image */}
                 <div className="product-hover-content">
                   <Button
                     variant="dark"
@@ -149,7 +149,15 @@ const TinMoi: React.FC = () => {
           <Modal.Title>{selectedProduct?.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img src={selectedProduct?.image} alt={selectedProduct?.name} className="img-fluid mb-3" />
+          {selectedProduct?.images.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`${selectedProduct?.name} ${index + 1}`}
+              className="img-fluid mb-2"
+              style={{ width: '100%' }}
+            />
+          ))}
           <p><strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}</p>
           <p><strong>Size:</strong> {selectedProduct?.size}</p>
           <p><strong>Số lượng:</strong> {selectedProduct?.quantity}</p>
