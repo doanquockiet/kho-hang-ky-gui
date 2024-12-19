@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
 import './TinMoi.css';
+import { Link } from 'react-router-dom';
 
 interface Product {
   id: string;
@@ -12,6 +13,7 @@ interface Product {
   size: string;
   price: number;
   category: string;
+  description: string;
 }
 
 const TinMoi: React.FC = () => {
@@ -36,6 +38,7 @@ const TinMoi: React.FC = () => {
           size: product.size,
           price: product.price,
           category: product.category,
+          description: product.description,
         }));
         setProducts(fetchedProducts);
         setFilteredProducts(fetchedProducts);
@@ -49,6 +52,23 @@ const TinMoi: React.FC = () => {
   // Format price as currency
   const formatPrice = (price: number) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+
+  // Render stars based on rating
+  const renderStars = (rating: number | undefined): JSX.Element[] => {
+    if (!rating) return [];
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
+    const stars: JSX.Element[] = [];
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<i key={i} className="fas fa-star text-warning"></i>);
+    }
+    if (halfStar) {
+      stars.push(<i key="half" className="fas fa-star-half-alt text-warning"></i>);
+    }
+    return stars;
+  };
+
 
   // Handle category filter
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -92,7 +112,7 @@ const TinMoi: React.FC = () => {
   return (
     <Container className="mt-4">
       <div className="title mb-4 text-center">
-        <h4>Tin Mới Đăng</h4>
+        <h4>Sản Phẩm Mới</h4>
       </div>
 
       {/* Bộ lọc và sắp xếp */}
@@ -118,22 +138,30 @@ const TinMoi: React.FC = () => {
         {filteredProducts.map(product => (
           <Col xs={12} md={4} lg={3} className="mb-4" key={product.id}>
             <div className="product-card shadow-sm">
-              <div className="image-product">
-                <img src={product.image} alt={product.name} />
-                <div className="product-hover-content">
-                  <Button
-                    variant="dark"
-                    size="sm"
-                    className="me-2"
-                    onClick={() => handleShowQuickView(product)}
-                  >
-                    Xem nhanh
-                  </Button>
-                  <Button variant="primary" size="sm">
-                    Mua ngay
-                  </Button>
+              {/* Hình sản phẩm bấm sẽ chuyển đến detail */}
+              <Link to={`/product/${product.id}`} state={{ productId: product.id }} className="text-decoration-none">
+                <div className="image-product">
+                  <img src={product.image} alt={product.name} />
                 </div>
+              </Link>
+              {/* Nút hover */}
+              <div className="product-hover-content">
+                <Button
+                  variant="dark"
+                  size="sm"
+                  className="me-2"
+                  onClick={(e) => {
+                    e.preventDefault(); // Chặn Link bên trên
+                    handleShowQuickView(product);
+                  }}
+                >
+                  Xem nhanh
+                </Button>
+                <Button as={Link} to={`/product/${product.id}`} variant="primary" size="sm">
+                  Mua ngay
+                </Button>
               </div>
+              {/* Thông tin sản phẩm */}
               <div className="product-info text-center mt-2">
                 <h6 className="product-name">{product.name}</h6>
                 <p className="product-price">{formatPrice(product.price)}</p>
@@ -142,20 +170,48 @@ const TinMoi: React.FC = () => {
           </Col>
         ))}
       </Row>
-
-      {/* Modal chi tiết sản phẩm */}
-      <Modal show={showModal} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{selectedProduct?.name}</Modal.Title>
+      <Modal show={showModal} onHide={handleCloseModal} centered size="lg">
+        <Modal.Header closeButton className="border-0">
+          <Modal.Title className="fs-7">{selectedProduct?.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img src={selectedProduct?.image} alt={selectedProduct?.name} className="img-fluid mb-3" />
-          <p><strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}</p>
-          <p><strong>Size:</strong> {selectedProduct?.size}</p>
-          <p><strong>Số lượng:</strong> {selectedProduct?.quantity}</p>
-          <Button variant="dark" className="w-100">Thêm vào giỏ</Button>
+          <Row>
+            {/* Cột ảnh sản phẩm */}
+            <Col md={6} className="d-flex justify-content-center align-items-center">
+              <img
+                src={selectedProduct?.image}
+                alt={selectedProduct?.name}
+                className="img-fluid w-100"
+                style={{ maxHeight: '400px', objectFit: 'cover' }}
+              />
+            </Col>
+
+            {/* Cột thông tin sản phẩm */}
+            <Col md={6} className="d-flex flex-column justify-content-center">
+              {/* Hiển thị rating sao nằm ngang */}
+              <div className="d-flex align-items-center mb-3">
+                {renderStars(selectedProduct?.rating)}
+              </div>
+              <h4 className="mb-3">{selectedProduct?.description}</h4>
+              <p className="mb-2">
+                <strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}
+              </p>
+              <p className="mb-2">
+                <strong>Size:</strong> {selectedProduct?.size}
+              </p>
+              <p className="mb-2">
+                <strong>Số lượng:</strong> {selectedProduct?.quantity}
+              </p>
+              <Button variant="dark" className="w-100 py-2 md-4">
+                Thêm vào giỏ hàng
+              </Button>
+            </Col>
+
+          </Row>
         </Modal.Body>
       </Modal>
+
+
     </Container>
   );
 };

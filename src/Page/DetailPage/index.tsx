@@ -15,8 +15,6 @@ interface Product {
   quantity: number;
   size: string;
   price: string;
-  location: string;
-  time: string;
   description: string;
 }
 
@@ -50,39 +48,47 @@ const DetailPage: React.FC = () => {
     <div>
       <Header />
 
-      <div className="product-details">
-        <Row>
-          <Col sm="12" md="6">
-            <div className="image-wrapper">
-              <CardImg className="card-img" src={product.image} alt={product.name} />
-            </div>
-          </Col>
-          <Col sm="12" md="6">
-            <CardBody>
-              <CardTitle tag="h2" className="product-title">{product.name}</CardTitle>
-              <CardText className="product-description">{product.description || "No description available."}</CardText>
-              <div className="rating">
-                <Rating allowFraction readonly size={24} initialValue={product.rating} />
-                {/* <span>{`${product.rating} ratings`}</span> */}
-              </div>
-              <CardText><strong>Price:</strong> {product.price} VNĐ</CardText>
-              {/* <CardText><strong>Location:</strong> {product.location}</CardText>
-              <CardText><strong>Posted:</strong> {product.time}</CardText> */}
-              <CardText><strong>Quantity:</strong> {product.quantity}</CardText>
-              <CardText><strong>Size:</strong> {product.size}</CardText>
-              <a href="https://www.facebook.com/profile.php?id=61567381013103" target="_blank" rel="noopener noreferrer">
-                <Button>
-                  Liên Hệ Ngay
-                </Button>
-              </a>
-              <div className="button-container">
-                <Button color="primary" className="add-to-basket-button" onClick={() => { }}>Add to basket</Button>
-                <Button color="secondary" className="back-to-home-button" onClick={() => navigate('/')} style={{ marginLeft: '10px' }}>Back to Home</Button>
-              </div>
-            </CardBody>
-          </Col>
-        </Row>
-      </div>
+      <div className="product-details-form">
+  {/* List Category - Bên trái */}
+  <div className="category-menu">
+    <ul className="category-list">
+      <li>ÁO KHOÁC</li>
+      <li>ÁO SƠ MI</li>
+      <li>QUẦN JEANS</li>
+      <li>ÁO PHÔNG</li>
+      <li>ÁO NI & HOODIE</li>
+      <li>QUẦN CARGO</li>
+      <li>QUẦN SHORT</li>
+      <li>KHUYẾN MẠI</li>
+      <li>PHỤ KIỆN</li>
+      <li>POLO</li>
+      <li>NEW</li>
+      <li>TANK TOP</li>
+    </ul>
+  </div>
+
+  {/* Ảnh sản phẩm - Phóng to */}
+  <div className="image-wrapper">
+    <img className="card-img" src={product.image} alt={product.name} />
+  </div>
+
+  {/* Thông tin sản phẩm - Bên phải */}
+  <div className="product-info-form">
+    <h2 className="product-title">{product.name}</h2>
+    <div className="rating mb-2">
+      <Rating allowFraction readonly size={24} initialValue={product.rating} />
+    </div>
+    <p className="product-price-form">{product.price} VNĐ</p>
+    <p className="product-description-form">{product.description}</p>
+    <p><strong>Số lượng:</strong> {product.quantity}</p>
+    <p><strong>Size:</strong> {product.size}</p>
+    <div className="button-container">
+      <button className="btn w-100 mb-2">Mua Ngay</button>
+      <button className="btn btn-secondary w-100">Thử Ngay Tại Store</button>
+    </div>
+  </div>
+</div>
+
 
       <Footer />
     </div>
