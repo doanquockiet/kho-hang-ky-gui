@@ -54,19 +54,6 @@ const Header = () => {
                 <button className="header__icon-button" aria-label="Search">
                     <SearchIcon />
                 </button>
-
-                {role ? (
-                    <button
-                        onClick={handleLogout}
-                        className="header__button header__button--logout"
-                    >
-                        Logout
-                    </button>
-                ) : (
-                    <NavLink to="/login" className="header__button header__button--login">
-                        <AccountCircleIcon /> Login
-                    </NavLink>
-                )}
                 <button className="header__icon-button" aria-label="Cart">
                     <span className="header__cart-icon">🛒</span>
                 </button>
@@ -75,6 +62,20 @@ const Header = () => {
                         Đăng Tin
                     </NavLink>
                 )}
+                {role ? (
+                    <button
+                        onClick={handleLogout}
+                        className="header__button header__button--logout"
+                    >
+                        Logout
+                    </button>
+                ) : (
+                    <NavLink to="/login">
+                        <AccountCircleIcon />
+                    </NavLink>
+                )}
+
+
             </div>
         </header>
 

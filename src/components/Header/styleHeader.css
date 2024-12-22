@@ -21,6 +21,10 @@ body {
     flex: 1;
 }
 
+.header__button--login {
+    text-decoration: none;
+}
+
 .header__logo {
     width: 80px;
     height: auto;
@@ -93,15 +97,14 @@ body {
     color: black;
 }
 
-.header__button--logout,
-.header__button--login {
+.header__button--logout {
     margin-left: 1rem;
-    padding: 0.5rem 1rem;
+    padding: 3px;
     background-color: #f34813;
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    font-weight: bold;
+    font-weight: 500;
     border: none;
     cursor: pointer;
 }
@@ -113,7 +116,7 @@ body {
 
 .dangtin {
     background-color: orange;
-    padding: 5px;
+    padding: 3px;
     border-radius: 5px;
     text-decoration: none;
     font-size: 18px;
