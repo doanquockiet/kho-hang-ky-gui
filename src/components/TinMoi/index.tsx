@@ -94,10 +94,7 @@ const TinMoi: React.FC = () => {
 
   return (
     <Container className="mt-4">
-      <div className="title mb-4 text-center">
-        <h4>Tin Mới Đăng</h4>
-      </div>
-
+     
       {/* Bộ lọc và sắp xếp */}
       <Row className="mb-4">
         <Col xs={6} md={3}>
@@ -121,7 +118,7 @@ const TinMoi: React.FC = () => {
       {/* Danh sách sản phẩm */}
       <Row>
         {filteredProducts.map((product) => (
-          <Col xs={12} md={4} lg={3} className="mb-4" key={product.id}>
+          <Col xs={12} md={4} lg={2} className="mb-4" key={product.id}>
             <div className="product-card shadow-sm">
               <Link to={`/product/${product.id}`} className="image-product" state={{ productId: product.id }}>
                 <img src={product.images[0]} alt={product.name} />

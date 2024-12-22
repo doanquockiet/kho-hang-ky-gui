@@ -41,11 +41,11 @@ body {
 .header__menu {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 22px;
     margin: 0;
     padding: 0;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .header__menu li a {
@@ -63,8 +63,8 @@ body {
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 15px;
+    justify-content: flex-end; /* Đảm bảo các icon nằm ngang và cách đều nhau */
+    gap: 20px; /* Khoảng cách giữa các icon */
 }
 
 .header__icon-button {
@@ -72,8 +72,22 @@ body {
     border: none;
     cursor: pointer;
     font-size: 1.5rem;
+    color: black; /* Đặt màu mặc định cho các icon là màu đen */
+    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu khi hover */
 }
 
+.header__icon-button:hover {
+    color: #007bff; /* Đổi màu khi hover */
+}
+
+.header__icon-button svg {
+    font-size: 1.5rem; /* Đặt kích thước cho các icon */
+    color: black; /* Đặt màu đen cho các icon */
+}
+
+.header__icon-button svg:hover {
+    color: #007bff; /* Đổi màu khi hover */
+}
 .header__cart-icon {
     font-size: 1.5rem;
 }
@@ -84,15 +98,14 @@ body {
     margin-left: 5px;
 }
 
-.header__icon-button svg {
-    color: black;
-}
 
-.header__icon-button svg:hover {
-    color: #007bff;
-    /* Tùy chỉnh màu khi hover nếu cần */
+.header-icon-profile{
+   
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px; 
 }
-
 .header__cart-icon {
     color: black;
 }
