@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './TinMoi.css';
 
 interface Product {
@@ -12,6 +13,7 @@ interface Product {
   size: string;
   price: number;
   category: string;
+  description: string;
 }
 
 const TinMoi: React.FC = () => {
@@ -36,6 +38,7 @@ const TinMoi: React.FC = () => {
           size: product.size,
           price: product.price,
           category: product.category,
+          description: product.description,
         }));
         setProducts(fetchedProducts);
         setFilteredProducts(fetchedProducts);
@@ -66,7 +69,7 @@ const TinMoi: React.FC = () => {
 
     // Filter products
     if (filterCategory) {
-      updatedProducts = updatedProducts.filter(product => product.category === filterCategory);
+      updatedProducts = updatedProducts.filter((product) => product.category === filterCategory);
     }
 
     // Sort products
@@ -103,6 +106,8 @@ const TinMoi: React.FC = () => {
             <option value="áo khoác">Áo khoác</option>
             <option value="áo thun">Áo thun</option>
             <option value="quần jeans">Quần jeans</option>
+            <option value="quần âu">Quần Âu</option>
+            <option value="quần short">Quần Short</option>
           </Form.Select>
         </Col>
         <Col xs={6} md={3}>
@@ -115,24 +120,25 @@ const TinMoi: React.FC = () => {
 
       {/* Danh sách sản phẩm */}
       <Row>
-        {filteredProducts.map(product => (
+        {filteredProducts.map((product) => (
           <Col xs={12} md={4} lg={3} className="mb-4" key={product.id}>
             <div className="product-card shadow-sm">
-              <div className="image-product">
-                <img src={product.images[0]} alt={product.name} /> {/* Show the first image */}
-                <div className="product-hover-content">
-                  <Button
-                    variant="dark"
-                    size="sm"
-                    className="me-2"
-                    onClick={() => handleShowQuickView(product)}
-                  >
-                    Xem nhanh
-                  </Button>
-                  <Button variant="primary" size="sm">
-                    Mua ngay
-                  </Button>
-                </div>
+              <Link to={`/product/${product.id}`} className="image-product" state={{ productId: product.id }}>
+                <img src={product.images[0]} alt={product.name} />
+              </Link>
+
+              <div className="product-hover-content">
+                <Button
+                  variant="dark"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => handleShowQuickView(product)}
+                >
+                  Xem nhanh
+                </Button>
+                <Link to={`/product/${product.id}`}>
+                  <Button variant="primary" size="sm">Mua ngay</Button>
+                </Link>
               </div>
               <div className="product-info text-center mt-2">
                 <h6 className="product-name">{product.name}</h6>
@@ -144,24 +150,28 @@ const TinMoi: React.FC = () => {
       </Row>
 
       {/* Modal chi tiết sản phẩm */}
-      <Modal show={showModal} onHide={handleCloseModal} centered>
+      <Modal show={showModal} onHide={handleCloseModal} animation size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{selectedProduct?.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body >
           {selectedProduct?.images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`${selectedProduct?.name} ${index + 1}`}
-              className="img-fluid mb-2"
-              style={{ width: '100%' }}
-            />
+            <Link to={`/product/${selectedProduct?.id}`} key={index}>
+              <img
+                src={image}
+                alt={`${selectedProduct?.name} ${index + 1}`}
+                className="img-fluid mb-2"
+                style={{ width: '100%' }}
+              />
+            </Link>
           ))}
           <p><strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}</p>
           <p><strong>Size:</strong> {selectedProduct?.size}</p>
           <p><strong>Số lượng:</strong> {selectedProduct?.quantity}</p>
-          <Button variant="dark" className="w-100">Thêm vào giỏ</Button>
+          <p><strong>Mô tả:</strong> {selectedProduct?.description}</p>
+          <Link to={`/product/${selectedProduct?.id}`}>
+            <Button variant="dark" className="w-100">Thêm vào giỏ</Button>
+          </Link>
         </Modal.Body>
       </Modal>
     </Container>

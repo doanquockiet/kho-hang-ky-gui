@@ -7,7 +7,7 @@
 .title h4 {
     font-weight: 600;
     font-size: 24px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Helvetica Neue
 }
 
 /* Card sản phẩm */
@@ -18,7 +18,9 @@
     background: #fff;
     transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-
+.mb-2{
+    font-size: larger;
+}
 .product-card:hover {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     transform: translateY(-5px); /* Nổi nhẹ khi hover */
@@ -112,6 +114,58 @@
     margin-bottom: 5px;
 }
 
+/* Modal chi tiết sản phẩm */
+/* Giảm kích thước của Modal */
+.modal-dialog {
+    max-width: 500px; /* Giới hạn chiều rộng */
+    margin: 1.75rem auto;
+  }
+  
+  .modal-body img {
+    width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng Modal */
+    height: auto;
+    max-height: 300px; /* Giới hạn chiều cao hình ảnh */
+    object-fit: contain; /* Cắt hình hợp lý nếu cần */
+  }
+  
+  .modal-body p {
+    font-size: 14px; /* Giảm kích thước chữ */
+  }
+  
+.product-image-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .product-image-modal img {
+    max-height: 400px;
+    object-fit: contain;
+  }
+  
+  /* Cột thông tin sản phẩm */
+  .product-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .product-details h5 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .product-details p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .product-details button {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
 /* Bộ lọc và thanh điều chỉnh */
 .filter-section {
     display: flex;
@@ -141,11 +195,22 @@
 .filter-section button:hover {
     background-color: #0056b3;
 }
-
+/* Hiển thị rating sao nằm ngang */
+.rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Khoảng cách giữa các sao */
+  }
+  
+  .rating-stars i {
+    font-size: 16px; /* Kích thước icon sao */
+    color: #ffc107; /* Màu vàng cho sao */
+  }
+  
 /* Hiển thị sao */
 .card-body .fa-star,
 .card-body .fa-star-half-alt {
-    margin-right: 3px;
+    margin-right: 5px;
     color: #ffc107; /* Màu vàng cho sao */
 }
 

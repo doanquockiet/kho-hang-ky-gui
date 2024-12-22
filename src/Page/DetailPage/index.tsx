@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
-import { Row, Col, CardImg, CardBody, CardTitle, CardText, Button } from "reactstrap";
-import { Rating } from "react-simple-star-rating";
 import './DetailPage.css';
 import Header from "../../components/Header";
 import Footer from "../../components/Footer/Footer";
@@ -10,22 +8,21 @@ import Footer from "../../components/Footer/Footer";
 interface Product {
   id: string;
   name: string;
-  image: string;
+  images: string[]; // Mảng hình ảnh
   rating: number;
   quantity: number;
   size: string;
   price: string;
-  location: string;
-  time: string;
   description: string;
+  details: string; // Thông tin chi tiết sản phẩm
+  category: string;
 }
 
 const DetailPage: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const { productId } = location.state || {};
-
   const [product, setProduct] = useState<Product | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null); // Quản lý hình ảnh lớn
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -50,38 +47,51 @@ const DetailPage: React.FC = () => {
     <div>
       <Header />
 
-      <div className="product-details">
-        <Row>
-          <Col sm="12" md="6">
-            <div className="image-wrapper">
-              <CardImg className="card-img" src={product.image} alt={product.name} />
-            </div>
-          </Col>
-          <Col sm="12" md="6">
-            <CardBody>
-              <CardTitle tag="h2" className="product-title">{product.name}</CardTitle>
-              <CardText className="product-description">{product.description || "No description available."}</CardText>
-              <div className="rating">
-                <Rating allowFraction readonly size={24} initialValue={product.rating} />
-                {/* <span>{`${product.rating} ratings`}</span> */}
-              </div>
-              <CardText><strong>Price:</strong> {product.price} VNĐ</CardText>
-              {/* <CardText><strong>Location:</strong> {product.location}</CardText>
-              <CardText><strong>Posted:</strong> {product.time}</CardText> */}
-              <CardText><strong>Quantity:</strong> {product.quantity}</CardText>
-              <CardText><strong>Size:</strong> {product.size}</CardText>
-              <a href="https://www.facebook.com/profile.php?id=61567381013103" target="_blank" rel="noopener noreferrer">
-                <Button>
-                  Liên Hệ Ngay
-                </Button>
-              </a>
-              <div className="button-container">
-                <Button color="primary" className="add-to-basket-button" onClick={() => { }}>Add to basket</Button>
-                <Button color="secondary" className="back-to-home-button" onClick={() => navigate('/')} style={{ marginLeft: '10px' }}>Back to Home</Button>
-              </div>
-            </CardBody>
-          </Col>
-        </Row>
+      <div className="product-details-form">
+        {/* List Category - Bên trái */}
+        <div className="category-menu">
+          <ul className="category-list">
+            <li>ÁO KHOÁC</li>
+            <li>ÁO THUN</li>
+            <li>QUẦN JEANS</li>
+            <li>QUẦN ÂU</li>
+            <li>QUẦN SHORT</li>
+          </ul>
+        </div>
+
+        {/* Ảnh sản phẩm */}
+        <div className="image-wrapper">
+          <div className="thumbnail-list">
+            {product.images.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`Thumbnail ${index + 1}`}
+                className="thumbnail-img"
+                onClick={() => setSelectedImage(image)} // Đổi hình lớn khi nhấn vào thumbnail
+              />
+            ))}
+          </div>
+
+          <div className="main-image">
+            <img src={selectedImage || product.images[0]} alt="Main" className="main-img" />
+          </div>
+        </div>
+
+        {/* Thông tin sản phẩm */}
+        <div className="product-info-form">
+          <h2 className="product-title">{product.name}</h2>
+          <p className="product-price-form">{product.price} VNĐ</p>
+          <p>{product.description}</p>
+          <p><strong>Số lượng:</strong> {product.quantity}</p>
+          <p><strong>Size:</strong> {product.size}</p>
+          <p><strong>Thông tin chi tiết:</strong> {product.details}</p>
+          <p><strong>Danh mục:</strong> {product.category}</p>
+          <div className="button-container">
+            <button className="btn w-100 mb-2">Mua Ngay</button>
+            <button className="btn btn-secondary w-100">Thử Ngay Tại Store</button>
+          </div>
+        </div>
       </div>
 
       <Footer />
