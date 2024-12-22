@@ -4,6 +4,8 @@ import img from '../../assets/logo.jpg'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { NavLink, useNavigate } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 const Header = () => {
     const role = localStorage.getItem('role');
     const navigate = useNavigate()
@@ -52,26 +54,27 @@ const Header = () => {
             {/* User Account and Icons */}
             <div className="header__icons">
                 <button className="header__icon-button" aria-label="Search">
-                    <SearchIcon />
+                    <SearchIcon fontSize='medium' />
                 </button>
                 <button className="header__icon-button" aria-label="Cart">
                     <span className="header__cart-icon">🛒</span>
                 </button>
                 {role === 'admin' && (
-                    <NavLink to="/add-product" className="dangtin">
-                        Đăng Tin
+                    <NavLink to="/add-product">
+                        <PostAddIcon fontSize='medium' />
                     </NavLink>
                 )}
                 {role ? (
-                    <button
+                    <div
                         onClick={handleLogout}
-                        className="header__button header__button--logout"
+                        className='logout'
                     >
-                        Logout
-                    </button>
+                        <LogoutIcon fontSize='medium' />
+                    </div>
+
                 ) : (
                     <NavLink to="/login">
-                        <AccountCircleIcon />
+                        <AccountCircleIcon fontSize='medium' />
                     </NavLink>
                 )}
 
