@@ -24,7 +24,8 @@ body {
 .header__logo {
     width: 80px;
     height: auto;
-    border-radius: 50%; /* Nếu muốn logo tròn */
+    border-radius: 50%;
+    /* Nếu muốn logo tròn */
 }
 
 .header__nav {
@@ -50,7 +51,8 @@ body {
 }
 
 .header__menu li a:hover {
-    color: #007bff; /* Màu xanh khi hover */
+    color: #007bff;
+    /* Màu xanh khi hover */
 }
 
 .header__icons {
@@ -77,25 +79,58 @@ body {
     color: red;
     margin-left: 5px;
 }
+
 .header__icon-button svg {
     color: black;
 }
 
 .header__icon-button svg:hover {
-    color: #007bff; /* Tùy chỉnh màu khi hover nếu cần */
+    color: #007bff;
+    /* Tùy chỉnh màu khi hover nếu cần */
 }
 
 .header__cart-icon {
     color: black;
 }
 
+.header__button--logout,
+.header__button--login {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #f34813;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.header__button--logout:hover,
+.header__button--login:hover {
+    background-color: #0056b3;
+}
+
+.dangtin {
+    background-color: orange;
+    padding: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.dangtin:hover {
+    background-color: #eed359;
+}
 
 /* Dropdown menu */
 .dropdown {
     position: relative;
-  }
-  
-  .dropdown__menu {
+}
+
+.dropdown__menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -104,32 +139,35 @@ body {
     padding: 10px 0;
     margin: 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: none; /* Ẩn menu con */
+    display: none;
+    /* Ẩn menu con */
     min-width: 150px;
     z-index: 999;
-  }
-  
-  .dropdown__menu li a {
+}
+
+.dropdown__menu li a {
     display: block;
     padding: 8px 20px;
     text-decoration: none;
     color: black;
     font-size: 0.875rem;
-  }
-  
-  .dropdown__menu li a:hover {
+}
+
+.dropdown__menu li a:hover {
     background-color: #f0f0f0;
     color: #007bff;
-  }
-  
-  /* Hiển thị menu khi hover */
-  .dropdown:hover .dropdown__menu {
+}
+
+/* Hiển thị menu khi hover */
+.dropdown:hover .dropdown__menu {
     display: block;
-  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .header__nav {
-        display: none; /* Ẩn menu khi màn hình nhỏ */
+        display: none;
+        /* Ẩn menu khi màn hình nhỏ */
     }
 
     .header__icons {
