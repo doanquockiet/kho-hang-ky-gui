@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { NavLink, useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import PersonPinCircleSharpIcon from '@mui/icons-material/PersonPinCircleSharp';
 const Header = () => {
     const role = localStorage.getItem('role');
     const navigate = useNavigate()
@@ -47,7 +48,7 @@ const Header = () => {
                             <li><a href="#">ACCESSORIES</a></li>
                         </ul>
                     </li>
-                    <li><a href="/outlet">OUTLET STORE</a></li>
+                    <li><a href="/outlet">NEW POST</a></li>
                 </ul>
             </nav>
 
@@ -60,17 +61,26 @@ const Header = () => {
                     <span className="header__cart-icon">🛒</span>
                 </button>
                 {role === 'admin' && (
+                    
                     <NavLink to="/add-product">
                         <PostAddIcon fontSize='medium' />
                     </NavLink>
                 )}
                 {role ? (
-                    <div
-                        onClick={handleLogout}
-                        className='logout'
-                    >
-                        <LogoutIcon fontSize='medium' />
+                    <div className="header-icon-profile">
+                        <NavLink to="/profile">
+                            <PersonPinCircleSharpIcon fontSize='medium' />
+                        </NavLink>
+                        <div
+                            onClick={handleLogout}
+                            className='logout'
+                        >
+                            <LogoutIcon fontSize='medium' />
+
+                        </div>
                     </div>
+
+
 
                 ) : (
                     <NavLink to="/login">
