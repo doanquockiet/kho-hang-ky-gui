@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,17 +8,44 @@ const LoginPage = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        // Check if token exists in localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/'); // Redirect to home if token exists
+        }
+    }, [navigate]);
+
     const handleLogin = async () => {
         try {
+            // Send login request
             const response = await axios.post('http://localhost:8080/api/users/login', {
                 email,
                 password
             });
+
             if (response.status === 200) {
                 const token = response.data.token;
-                localStorage.setItem('token', token); // Save token to localStorage
-                setMessage('Login successful');
-                navigate('/');
+
+                // Save token to localStorage
+                localStorage.setItem('token', token);
+
+                // Fetch user profile with the token
+                const profileResponse = await axios.get('http://localhost:8080/api/users/profile', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (profileResponse.status === 200) {
+                    const { role } = profileResponse.data.user;
+
+                    // Save role to localStorage
+                    localStorage.setItem('role', role);
+
+                    setMessage('Login successful');
+                    navigate('/');
+                }
             }
         } catch (error) {
             setMessage('Login failed. Please check your credentials.');
@@ -31,7 +58,6 @@ const LoginPage = () => {
                 <div className="card-body p-4">
                     <h3 className="card-title text-center mb-4">Sign In</h3>
                     {message && <p className="text-danger text-center">{message}</p>}
-
                     <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
                         <div className="mb-3">
                             <label htmlFor="emailInput" className="form-label">Email Address</label>

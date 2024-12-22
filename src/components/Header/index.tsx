@@ -3,8 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import img from '../../assets/logo.jpg'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 const Header = () => {
+    const role = localStorage.getItem('role');
+    const navigate = useNavigate()
+    
+    const handleLogout = () => {
+        localStorage.removeItem('role');
+        localStorage.removeItem('token');
+        navigate('/login'); 
+    };
     return (
         <header className="header">
             {/* Logo Section */}
@@ -23,9 +31,9 @@ const Header = () => {
                 <ul className="header__menu">
                     <li><a href="/">TRANG CHỦ</a></li>
                     <li><a href="/deals">DECEMBER DEAL</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown__toggle">SẢN PHẨM</a>
-                        <ul class="dropdown__menu">
+                    <li className="dropdown">
+                        <a href="#" className="dropdown__toggle">SẢN PHẨM</a>
+                        <ul className="dropdown__menu">
                             <li><a href="#">JACKETS</a></li>
                             <li><a href="#">HOODIE & SWEATER</a></li>
                             <li><a href="#">PANTS</a></li>
@@ -46,13 +54,27 @@ const Header = () => {
                 <button className="header__icon-button" aria-label="Search">
                     <SearchIcon />
                 </button>
-                <NavLink to="/login">
-                    <AccountCircleIcon />
-                </NavLink>
+
+                {role ? (
+                    <button
+                        onClick={handleLogout}
+                        className="header__button header__button--logout"
+                    >
+                        Logout
+                    </button>
+                ) : (
+                    <NavLink to="/login" className="header__button header__button--login">
+                        <AccountCircleIcon /> Login
+                    </NavLink>
+                )}
                 <button className="header__icon-button" aria-label="Cart">
                     <span className="header__cart-icon">🛒</span>
-
                 </button>
+                {role === 'admin' && (
+                    <NavLink to="/add-product" className="dangtin">
+                        Đăng Tin
+                    </NavLink>
+                )}
             </div>
         </header>
 
