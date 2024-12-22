@@ -7,11 +7,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 const Header = () => {
     const role = localStorage.getItem('role');
     const navigate = useNavigate()
-    
+
     const handleLogout = () => {
         localStorage.removeItem('role');
         localStorage.removeItem('token');
-        navigate('/login'); 
+        navigate('/');
     };
     return (
         <header className="header">
