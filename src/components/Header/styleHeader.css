@@ -98,14 +98,11 @@ body {
 }
 
 .header__button--logout {
-    margin-left: 1rem;
-    padding: 3px;
-    background-color: #f34813;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 500;
-    border: none;
+    background-color: none;
+}
+
+.logout:hover {
+    color: #0056b3;
     cursor: pointer;
 }
 
