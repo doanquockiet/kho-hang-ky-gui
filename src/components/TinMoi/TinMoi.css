@@ -113,7 +113,25 @@
     color: #e63946; /* Màu đỏ nổi bật cho giá */
     margin-bottom: 5px;
 }
+
 /* Modal chi tiết sản phẩm */
+/* Giảm kích thước của Modal */
+.modal-dialog {
+    max-width: 500px; /* Giới hạn chiều rộng */
+    margin: 1.75rem auto;
+  }
+  
+  .modal-body img {
+    width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng Modal */
+    height: auto;
+    max-height: 300px; /* Giới hạn chiều cao hình ảnh */
+    object-fit: contain; /* Cắt hình hợp lý nếu cần */
+  }
+  
+  .modal-body p {
+    font-size: 14px; /* Giảm kích thước chữ */
+  }
+  
 .product-image-modal {
     display: flex;
     align-items: center;

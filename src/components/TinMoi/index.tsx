@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
-import './TinMoi.css';
+import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import './TinMoi.css';
 
 interface Product {
   id: string;
   name: string;
-  image: string;
+  images: string[]; // Updated to handle multiple images
   rating: number;
   quantity: number;
   size: string;
@@ -32,7 +32,7 @@ const TinMoi: React.FC = () => {
         const fetchedProducts = response.data.map((product: any) => ({
           id: product._id,
           name: product.name,
-          image: product.image,
+          images: product.images, // Handle multiple images
           rating: product.rating,
           quantity: product.quantity,
           size: product.size,
@@ -53,23 +53,6 @@ const TinMoi: React.FC = () => {
   const formatPrice = (price: number) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 
-  // Render stars based on rating
-  const renderStars = (rating: number | undefined): JSX.Element[] => {
-    if (!rating) return [];
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 !== 0;
-    const stars: JSX.Element[] = [];
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<i key={i} className="fas fa-star text-warning"></i>);
-    }
-    if (halfStar) {
-      stars.push(<i key="half" className="fas fa-star-half-alt text-warning"></i>);
-    }
-    return stars;
-  };
-
-
   // Handle category filter
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterCategory(e.target.value);
@@ -86,7 +69,7 @@ const TinMoi: React.FC = () => {
 
     // Filter products
     if (filterCategory) {
-      updatedProducts = updatedProducts.filter(product => product.category === filterCategory);
+      updatedProducts = updatedProducts.filter((product) => product.category === filterCategory);
     }
 
     // Sort products
@@ -112,7 +95,7 @@ const TinMoi: React.FC = () => {
   return (
     <Container className="mt-4">
       <div className="title mb-4 text-center">
-        <h4>Sản Phẩm Mới</h4>
+        <h4>Tin Mới Đăng</h4>
       </div>
 
       {/* Bộ lọc và sắp xếp */}
@@ -123,6 +106,8 @@ const TinMoi: React.FC = () => {
             <option value="áo khoác">Áo khoác</option>
             <option value="áo thun">Áo thun</option>
             <option value="quần jeans">Quần jeans</option>
+            <option value="quần âu">Quần Âu</option>
+            <option value="quần short">Quần Short</option>
           </Form.Select>
         </Col>
         <Col xs={6} md={3}>
@@ -135,33 +120,26 @@ const TinMoi: React.FC = () => {
 
       {/* Danh sách sản phẩm */}
       <Row>
-        {filteredProducts.map(product => (
+        {filteredProducts.map((product) => (
           <Col xs={12} md={4} lg={3} className="mb-4" key={product.id}>
             <div className="product-card shadow-sm">
-              {/* Hình sản phẩm bấm sẽ chuyển đến detail */}
-              <Link to={`/product/${product.id}`} state={{ productId: product.id }} className="text-decoration-none">
-                <div className="image-product">
-                  <img src={product.image} alt={product.name} />
-                </div>
+              <Link to={`/product/${product.id}`} className="image-product" state={{ productId: product.id }}>
+                <img src={product.images[0]} alt={product.name} />
               </Link>
-              {/* Nút hover */}
+
               <div className="product-hover-content">
                 <Button
                   variant="dark"
                   size="sm"
                   className="me-2"
-                  onClick={(e) => {
-                    e.preventDefault(); // Chặn Link bên trên
-                    handleShowQuickView(product);
-                  }}
+                  onClick={() => handleShowQuickView(product)}
                 >
                   Xem nhanh
                 </Button>
-                <Button as={Link} to={`/product/${product.id}`} variant="primary" size="sm">
-                  Mua ngay
-                </Button>
+                <Link to={`/product/${product.id}`}>
+                  <Button variant="primary" size="sm">Mua ngay</Button>
+                </Link>
               </div>
-              {/* Thông tin sản phẩm */}
               <div className="product-info text-center mt-2">
                 <h6 className="product-name">{product.name}</h6>
                 <p className="product-price">{formatPrice(product.price)}</p>
@@ -170,48 +148,32 @@ const TinMoi: React.FC = () => {
           </Col>
         ))}
       </Row>
-      <Modal show={showModal} onHide={handleCloseModal} centered size="lg">
-        <Modal.Header closeButton className="border-0">
-          <Modal.Title className="fs-7">{selectedProduct?.name}</Modal.Title>
+
+      {/* Modal chi tiết sản phẩm */}
+      <Modal show={showModal} onHide={handleCloseModal} animation size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedProduct?.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Row>
-            {/* Cột ảnh sản phẩm */}
-            <Col md={6} className="d-flex justify-content-center align-items-center">
+        <Modal.Body >
+          {selectedProduct?.images.map((image, index) => (
+            <Link to={`/product/${selectedProduct?.id}`} key={index}>
               <img
-                src={selectedProduct?.image}
-                alt={selectedProduct?.name}
-                className="img-fluid w-100"
-                style={{ maxHeight: '400px', objectFit: 'cover' }}
+                src={image}
+                alt={`${selectedProduct?.name} ${index + 1}`}
+                className="img-fluid mb-2"
+                style={{ width: '100%' }}
               />
-            </Col>
-
-            {/* Cột thông tin sản phẩm */}
-            <Col md={6} className="d-flex flex-column justify-content-center">
-              {/* Hiển thị rating sao nằm ngang */}
-              <div className="d-flex align-items-center mb-3">
-                {renderStars(selectedProduct?.rating)}
-              </div>
-              <h4 className="mb-3">{selectedProduct?.description}</h4>
-              <p className="mb-2">
-                <strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}
-              </p>
-              <p className="mb-2">
-                <strong>Size:</strong> {selectedProduct?.size}
-              </p>
-              <p className="mb-2">
-                <strong>Số lượng:</strong> {selectedProduct?.quantity}
-              </p>
-              <Button variant="dark" className="w-100 py-2 md-4">
-                Thêm vào giỏ hàng
-              </Button>
-            </Col>
-
-          </Row>
+            </Link>
+          ))}
+          <p><strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}</p>
+          <p><strong>Size:</strong> {selectedProduct?.size}</p>
+          <p><strong>Số lượng:</strong> {selectedProduct?.quantity}</p>
+          <p><strong>Mô tả:</strong> {selectedProduct?.description}</p>
+          <Link to={`/product/${selectedProduct?.id}`}>
+            <Button variant="dark" className="w-100">Thêm vào giỏ</Button>
+          </Link>
         </Modal.Body>
       </Modal>
-
-
     </Container>
   );
 };

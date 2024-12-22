@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TextField, Button, CircularProgress, Grid, Typography, Box, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 
-// Define the types for the form fields
 interface ProductData {
   name: string;
   price: number;
   category: string;
   description: string;
-  image: string;
+  images: string[];
   rating: number;
   quantity: number;
   size: string;
@@ -24,9 +23,8 @@ const AddProductForm: React.FC = () => {
   const [rating, setRating] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(0);
   const [size, setSize] = useState<string>('');
-  const [image, setImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [progress, setProgress] = useState<number>(0);
+  const [images, setImages] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -34,57 +32,52 @@ const AddProductForm: React.FC = () => {
   const token = localStorage.getItem('token');
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      setImages((prevImages) => [...prevImages, ...files]);
     }
   };
 
-  const uploadImage = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      if (!image) {
-        reject(new Error('No image selected.'));
+  const uploadImages = (): Promise<void> => {
+    return new Promise(async (resolve, reject) => {
+      if (images.length === 0) {
+        reject(new Error('No images selected.'));
         return;
       }
 
-      const formData = new FormData();
-      formData.append('file', image);
-      formData.append("upload_preset", "ChoDoCU"); // Thay 'your_upload_preset' bằng preset của bạn trong Cloudinary
-      formData.append("cloud_name", "dkojewwdy");
-      // Gửi yêu cầu lên Cloudinary để upload ảnh
-      axios
-        .post('https://api.cloudinary.com/v1_1/dkojewwdy/image/upload', formData)
-        .then((response) => {
-          setImageUrl(response.data.secure_url); // Lưu URL ảnh từ Cloudinary vào state
-          resolve();
-        })
-        .catch((error) => {
-          console.error('Error uploading image:', error);
-          setUploadError('Error uploading image to Cloudinary.');
-          reject(error);
-        });
+      try {
+        const uploadedUrls = [];
+        for (const image of images) {
+          const formData = new FormData();
+          formData.append('file', image);
+          formData.append("upload_preset", "ChoDoCU");
+          formData.append("cloud_name", "dkojewwdy");
+
+          const response = await axios.post('https://api.cloudinary.com/v1_1/dkojewwdy/image/upload', formData);
+          uploadedUrls.push(response.data.secure_url);
+        }
+        setImageUrls(uploadedUrls);
+        resolve();
+      } catch (error) {
+        console.error('Error uploading images:', error);
+        setUploadError('Error uploading images to Cloudinary.');
+        reject(error);
+      }
     });
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (isSubmitting) {
-      return;
-    }
-    // Kiểm tra số lượng phải lớn hơn 0
-    if (quantity <= 0) {
-      alert('Số lượng phải lớn hơn 0!');
-      return;
-    }
-   
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
     setUploadError(null);
 
-    if (!imageUrl && image) {
+    if (imageUrls.length === 0 && images.length > 0) {
       try {
-        await uploadImage();
+        await uploadImages();
       } catch (error) {
-        console.error('Error uploading image:', error);
         setIsSubmitting(false);
         return;
       }
@@ -95,7 +88,7 @@ const AddProductForm: React.FC = () => {
       price: parseFloat(price),
       category,
       description,
-      image: imageUrl,
+      images: imageUrls,
       rating: parseFloat(rating),
       quantity,
       size,
@@ -110,26 +103,25 @@ const AddProductForm: React.FC = () => {
       });
 
       setSuccessMessage('Sản phẩm đã được thêm thành công!');
-
-      setName('');
-      setPrice('');
-      setCategory('áo khoác');
-      setDescription('');
-      setRating('');
-      setQuantity(1);
-      setSize('');
-      setImage(null);
-      setImageUrl('');
-      setProgress(0);
-
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      resetForm();
+      setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       console.error('Error adding product:', error);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const resetForm = () => {
+    setName('');
+    setPrice('');
+    setCategory('áo khoác');
+    setDescription('');
+    setRating('');
+    setQuantity(1);
+    setSize('');
+    setImages([]);
+    setImageUrls([]);
   };
 
   return (
@@ -156,7 +148,7 @@ const AddProductForm: React.FC = () => {
               required
               type="number"
               inputProps={{
-                min: 0, // Đảm bảo giá trị không dưới 1
+                min: 0,
               }}
             />
           </Grid>
@@ -210,11 +202,10 @@ const AddProductForm: React.FC = () => {
               required
               type="number"
               inputProps={{
-                min: 1, // Đảm bảo giá trị không dưới 1
+                min: 1,
               }}
             />
           </Grid>
-
 
           <Grid item xs={12} sm={12}>
             <FormControl fullWidth required>
@@ -239,17 +230,12 @@ const AddProductForm: React.FC = () => {
               <input
                 type="file"
                 hidden
+                multiple
                 onChange={handleImageChange}
                 required
               />
             </Button>
           </Grid>
-
-          {progress > 0 && (
-            <Grid item xs={12}>
-              <CircularProgress variant="determinate" value={progress} />
-            </Grid>
-          )}
 
           {uploadError && <Grid item xs={12}><Typography color="error">{uploadError}</Typography></Grid>}
           {successMessage && <Grid item xs={12}><Typography color="success">{successMessage}</Typography></Grid>}
@@ -268,11 +254,16 @@ const AddProductForm: React.FC = () => {
         </Grid>
       </form>
 
-      {imageUrl && (
+      {imageUrls.length > 0 && (
         <Box sx={{ mt: 2, textAlign: 'center' }}>
           <Typography variant="h6">Hình ảnh đã tải lên:</Typography>
-          <img src={imageUrl} alt="Product" style={{ width: '200px', marginTop: '10px' }} />
-
+          <Grid container spacing={2}>
+            {imageUrls.map((url, index) => (
+              <Grid item xs={4} key={index}>
+                <img src={url} alt={`Product ${index + 1}`} style={{ width: '100%' }} />
+              </Grid>
+            ))}
+          </Grid>
         </Box>
       )}
     </Box>
