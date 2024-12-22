@@ -3,8 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import img from '../../assets/logo.jpg'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 const Header = () => {
+    const navigate = useNavigate();
+
+    const handleAccountClick = () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/profile'); // Nếu đã đăng nhập, chuyển đến trang Profile
+        } else {
+            navigate('/login'); // Nếu chưa đăng nhập, chuyển đến trang Login
+        }
+    };
+
     return (
         <header className="header">
             {/* Logo Section */}
@@ -23,9 +35,9 @@ const Header = () => {
                 <ul className="header__menu">
                     <li><a href="/">TRANG CHỦ</a></li>
                     <li><a href="/deals">DECEMBER DEAL</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown__toggle">SẢN PHẨM</a>
-                        <ul class="dropdown__menu">
+                    <li className="dropdown">
+                        <a href="#" className="dropdown__toggle">SẢN PHẨM</a>
+                        <ul className="dropdown__menu">
                             <li><a href="#">JACKETS</a></li>
                             <li><a href="#">HOODIE & SWEATER</a></li>
                             <li><a href="#">PANTS</a></li>
@@ -37,7 +49,7 @@ const Header = () => {
                             <li><a href="#">ACCESSORIES</a></li>
                         </ul>
                     </li>
-                    <li><a href="/outlet">OUTLET STORE</a></li>
+                    <li><a href="/outlet">NEW ITEMS</a></li>
                 </ul>
             </nav>
 
@@ -46,17 +58,14 @@ const Header = () => {
                 <button className="header__icon-button" aria-label="Search">
                     <SearchIcon />
                 </button>
-                <NavLink to="/login">
+                <button onClick={handleAccountClick} className="header__icon-button">
                     <AccountCircleIcon />
-                </NavLink>
+                </button>
                 <button className="header__icon-button" aria-label="Cart">
                     <span className="header__cart-icon">🛒</span>
-
                 </button>
             </div>
         </header>
-
-
     );
 };
 

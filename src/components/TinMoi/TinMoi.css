@@ -29,22 +29,23 @@
 /* Container ảnh sản phẩm */
 .image-product {
     position: relative;
-    width: 100%;
-    height: 280px; /* Chiều cao cố định cho ảnh */
+    width: 100%; /* Chiều rộng bằng container */
+    height: 200px; /* Chiều cao cố định */
     overflow: hidden;
-    background: #f8f9fa; /* Màu nền nhạt cho ảnh */
-}
-
-.image-product img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Giữ tỷ lệ ảnh */
+    background: #f8f9fa; /* Màu nền nhạt */
+  }
+  
+  .image-product img {
+    width: 100%; /* Chiều rộng đầy đủ */
+    height: 100%; /* Chiều cao đầy đủ */
+    object-fit: cover; /* Giữ tỷ lệ và cắt ảnh phù hợp */
     transition: transform 0.3s ease-in-out;
-}
-
-.product-card:hover .image-product img {
-    transform: scale(1.1); /* Phóng to ảnh khi hover */
-}
+  }
+  
+  .product-card:hover .image-product img {
+    transform: scale(1.1); /* Phóng to khi hover */
+  }
+  
 
 /* Hover content (nút Xem nhanh và Mua ngay) */
 .product-hover-content {

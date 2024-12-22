@@ -44,58 +44,7 @@ const Banner = () => {
           </Carousel.Item>
         ))}
       </Carousel>
-        <div className='mini-menu mt-4'>
-          <a href="" className='mini-menu-a'>
-            <div className='mini-menu-img'>
-            <img src={quannu}/>
-            </div>
-            <div className="mini-menu-span">
-              <span>Quần Nữ</span>
-            </div>
-            </a>
-            <a href="" className='mini-menu-a'>
-            <div className='mini-menu-img'>
-            <img src={aonu}/>            </div>
-            <div className="mini-menu-span">
-              <span>Áo Nữ</span>
-            </div>
-            </a>
-            <a href="" className='mini-menu-a'>
-            <div className='mini-menu-img'>
-            <img src={quannam}/>            </div>
-            <div className="mini-menu-span">
-              <span>Quần Nam</span>
-            </div>
-            </a>
-            {/* {/* <a href="" className='mini-menu-a'>
-            <div className='mini-menu-img'>
-            <img src={mini_item}/>            </div>
-            <div className="mini-menu-span">
-              <span>Balo</span>
-            </div>
-            </a> */}
-            <a href="" className='mini-menu-a'>
-            <div className='mini-menu-img'>
-            <img src={aonam}/>            </div>
-            <div className="mini-menu-span">
-              <span>Áo Nam</span>
-            </div>
-            </a>
-            {/* <a href="" className='mini-menu-a'>
-            <div className='mini-menu-img'>
-            <img src={mini_item}/>            </div>
-            <div className="mini-menu-span">
-              <span>Khác</span>
-            </div> 
-            </a> */}
-            {/* <a href="" className='mini-menu-a'>
-            <div className='mini-menu-img'>
-            <img src={mini_item}/>            </div>
-            <div className="mini-menu-span">
-              <span>Shop 0đ</span>
-            </div>
-            </a> */}
-        </div>
+        
     </Container>
   );
 };

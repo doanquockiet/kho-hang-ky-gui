@@ -5,6 +5,7 @@ import DetailPage from './Page/DetailPage/index.js';
 import AddProductForm from './Page/PageDangTin/index.js';
 import LoginPage from './Page/Login/index.js';
 import RegisterPage from './Page/Register/index.js';
+import ProfilePage from './Page/UserProfile/index.js';
 function App() {
   
 
@@ -17,6 +18,7 @@ function App() {
       <Route path='/register' element={<RegisterPage/>}/>
       <Route path="/reset-password" element={<ResetPassword/>} />
       <Route path="/product/:id" element={<DetailPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </>
   )
