@@ -1,0 +1,115 @@
+/* Tổng thể của trang giỏ hàng */
+.cart-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .cart-page h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Danh sách sản phẩm trong giỏ hàng */
+  .cart-page ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .cart-page ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .cart-page ul li:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hình ảnh sản phẩm */
+  .cart-page ul li img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-right: 20px;
+  }
+  
+  /* Thông tin sản phẩm */
+  .cart-page ul li div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .cart-page ul li h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .cart-page ul li p {
+    margin: 0;
+    color: #555;
+  }
+  
+  /* Nút hành động */
+  .cart-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: flex-end;
+  }
+  
+  .cart-actions .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .cart-actions .btn-primary {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .cart-actions .btn-primary:hover {
+    background-color: #555;
+  }
+  
+  .cart-actions .btn-secondary {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .cart-actions .btn-secondary:hover {
+    background-color: #ddd;
+  }
+  /* Delete Button */
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff4d4f; /* Red color for delete icon */
+    transition: color 0.3s ease;
+  }
+  
+  .delete-button:hover {
+    color: #d32f2f; /* Darker red on hover */
+  }
+  
