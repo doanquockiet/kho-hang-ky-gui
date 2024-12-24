@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './TinMoi.css';
 
 interface Product {
   id: string;
   name: string;
-  images: string[]; // Updated to handle multiple images
+  images: string[];
   rating: number;
   quantity: number;
   size: string;
@@ -23,6 +23,7 @@ const TinMoi: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<string>('asc');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch products from API
   useEffect(() => {
@@ -32,7 +33,7 @@ const TinMoi: React.FC = () => {
         const fetchedProducts = response.data.map((product: any) => ({
           id: product._id,
           name: product.name,
-          images: product.images, // Handle multiple images
+          images: product.images,
           rating: product.rating,
           quantity: product.quantity,
           size: product.size,
@@ -67,18 +68,42 @@ const TinMoi: React.FC = () => {
   useEffect(() => {
     let updatedProducts = [...products];
 
-    // Filter products
     if (filterCategory) {
       updatedProducts = updatedProducts.filter((product) => product.category === filterCategory);
     }
 
-    // Sort products
     updatedProducts.sort((a, b) =>
       sortOrder === 'asc' ? a.price - b.price : b.price - a.price
     );
 
     setFilteredProducts(updatedProducts);
   }, [filterCategory, sortOrder, products]);
+
+  // Add product to cart
+  const addToCart = async (productId: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'http://localhost:8080/api/cart/add',
+        { productId, quantity: 1 },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log('Add to cart response:', response.data);
+
+      // Dispatch a custom event to update the cart count
+      const updatedCount = response.data.cart.items.reduce((total: number, item: any) => total + item.quantity, 0);
+      const event = new CustomEvent('updateCartCount', { detail: updatedCount });
+      window.dispatchEvent(event);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
+
+  // Handle "Mua Ngay"
+  const handleBuyNow = async (productId: string) => {
+    await addToCart(productId); // Add product to cart
+    navigate('/cart'); // Redirect to Cart page
+  };
 
   // Open Modal
   const handleShowQuickView = (product: Product) => {
@@ -94,8 +119,7 @@ const TinMoi: React.FC = () => {
 
   return (
     <Container className="mt-4">
-     
-      {/* Bộ lọc và sắp xếp */}
+      {/* Filter and Sorting */}
       <Row className="mb-4">
         <Col xs={6} md={3}>
           <Form.Select value={filterCategory} onChange={handleFilterChange}>
@@ -115,7 +139,7 @@ const TinMoi: React.FC = () => {
         </Col>
       </Row>
 
-      {/* Danh sách sản phẩm */}
+      {/* Product List */}
       <Row>
         {filteredProducts.map((product) => (
           <Col xs={12} md={4} lg={2} className="mb-4" key={product.id}>
@@ -125,17 +149,12 @@ const TinMoi: React.FC = () => {
               </Link>
 
               <div className="product-hover-content">
-                <Button
-                  variant="dark"
-                  size="sm"
-                  className="me-2"
-                  onClick={() => handleShowQuickView(product)}
-                >
+                <Button variant="dark" size="sm" onClick={() => handleShowQuickView(product)}>
                   Xem nhanh
                 </Button>
-                <Link to={`/product/${product.id}`}>
-                  <Button variant="primary" size="sm">Mua ngay</Button>
-                </Link>
+                <Button variant="primary" size="sm" onClick={() => handleBuyNow(product.id)}>
+                  Mua ngay
+                </Button>
               </div>
               <div className="product-info text-center mt-2">
                 <h6 className="product-name">{product.name}</h6>
@@ -146,30 +165,45 @@ const TinMoi: React.FC = () => {
         ))}
       </Row>
 
-      {/* Modal chi tiết sản phẩm */}
+      {/* Quick View Modal */}
       <Modal show={showModal} onHide={handleCloseModal} animation size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{selectedProduct?.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body >
-          {selectedProduct?.images.map((image, index) => (
-            <Link to={`/product/${selectedProduct?.id}`} key={index}>
+        <Modal.Body className="product-details-modal">
+          <div className="product-image-modal text-center mb-3">
+            {selectedProduct?.images.map((image, index) => (
               <img
+                key={index}
                 src={image}
                 alt={`${selectedProduct?.name} ${index + 1}`}
                 className="img-fluid mb-2"
-                style={{ width: '100%' }}
+                style={{ maxHeight: '300px', objectFit: 'contain' }}
               />
-            </Link>
-          ))}
-          <p><strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}</p>
-          <p><strong>Size:</strong> {selectedProduct?.size}</p>
-          <p><strong>Số lượng:</strong> {selectedProduct?.quantity}</p>
-          <p><strong>Mô tả:</strong> {selectedProduct?.description}</p>
-          <Link to={`/product/${selectedProduct?.id}`}>
-            <Button variant="dark" className="w-100">Thêm vào giỏ</Button>
-          </Link>
+            ))}
+          </div>
+          <div className="product-details">
+
+            <p>
+              <strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}
+            </p>
+            <p>
+              <strong>Size:</strong> {selectedProduct?.size}
+            </p>
+
+            <p>
+              <strong>Mô tả:</strong> {selectedProduct?.description}
+            </p>
+          </div>
+          <Button
+            variant="dark"
+            className="w-100"
+            onClick={() => addToCart(selectedProduct?.id || '')}
+          >
+            Thêm vào giỏ
+          </Button>
         </Modal.Body>
+
       </Modal>
     </Container>
   );

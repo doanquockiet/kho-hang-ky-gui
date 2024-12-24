@@ -6,6 +6,7 @@ import AddProductForm from './Page/PageDangTin/index.js';
 import LoginPage from './Page/Login/index.js';
 import RegisterPage from './Page/Register/index.js';
 import ProfilePage from './Page/UserProfile/Profile.js';
+import CartPage from './Page/Cart/index.js';
 function App() {
   
 
@@ -19,6 +20,7 @@ function App() {
       <Route path="/reset-password" element={<ResetPassword/>} />
       <Route path="/product/:id" element={<DetailPage />} />
       <Route path="/profile" element={<ProfilePage/>} />
+      <Route path="/cart" element={<CartPage />} />
       </Routes>
     </>
   )

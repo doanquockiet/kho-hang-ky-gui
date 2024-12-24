@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './styleHeader.css'; // Liên kết tệp CSS cho kiểu dáng
+import './styleHeader.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import img from '../../assets/logo.jpg';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -7,46 +7,59 @@ import SearchIcon from '@mui/icons-material/Search';
 import { NavLink, useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonPinCircleSharpIcon from '@mui/icons-material/PersonPinCircleSharp';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import axios from 'axios';
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [username, setUsername] = useState('Guest');
+    const [cartCount, setCartCount] = useState(0);
     const role = localStorage.getItem('role');
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Lấy username từ localStorage
         const savedUsername = localStorage.getItem('username');
-        if (savedUsername) {
-            setUsername(savedUsername);
-        } else {
-            setUsername('Guest'); // Nếu không có username thì mặc định là 'Guest'
-        }
+        setUsername(savedUsername || 'Guest');
     }, []);
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 50) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
+        const fetchCartCount = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const response = await axios.get('http://localhost:8080/api/cart', {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+                    const cartItems = response.data.items || [];
+                    const totalCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+                    setCartCount(totalCount);
+                }
+            } catch (error) {
+                console.error('Error fetching cart count:', error);
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
+        fetchCartCount();
+
+        const updateCartCountListener = (event: any) => {
+            setCartCount(event.detail);
+        };
+
+        window.addEventListener('updateCartCount', updateCartCountListener);
+
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('updateCartCount', updateCartCountListener);
         };
     }, []);
 
     const handleLogout = () => {
-        // Xóa thông tin đăng nhập khi logout
         localStorage.removeItem('role');
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        setUsername('Guest');  // Đặt lại username về Guest khi đăng xuất
+        setUsername('Guest');
+        setCartCount(0);
         navigate('/login');
     };
 
@@ -88,34 +101,40 @@ const Header = () => {
 
             <div className="header__icons">
                 <button className="header__icon-button" aria-label="Search">
-                    <SearchIcon fontSize='medium' />
+                    <SearchIcon fontSize="medium" />
                 </button>
-                <button className="header__icon-button" aria-label="Cart">
-                    <span className="header__cart-icon">🛒</span>
-                </button>
+                <NavLink to="/cart" className="header__icon-button" aria-label="Cart">
+                    <span className="header__cart-icon">
+                        <ShoppingCartIcon fontSize="medium" />
+                    </span>
+                    {cartCount > 0 && <span className="header__cart-count">{cartCount}</span>}
+                </NavLink>
                 {role === 'admin' && (
-                    <NavLink to="/add-product">
-                        <PostAddIcon fontSize='medium' />
+                    <NavLink to="/add-product" className="header__icon-button">
+                        <PostAddIcon fontSize="medium" />
                     </NavLink>
                 )}
                 {role ? (
-                    <div className="header-icon-profile">
+                    <>
                         <OverlayTrigger placement="bottom" overlay={renderTooltip}>
-                            <NavLink to="/profile">
+                            <NavLink to="/profile" className="header__icon-button">
                                 <PersonPinCircleSharpIcon fontSize="medium" />
                             </NavLink>
                         </OverlayTrigger>
-                        <div onClick={handleLogout} className="logout">
+                        <button
+                            className="header__icon-button"
+                            onClick={handleLogout}
+                            aria-label="Logout"
+                        >
                             <LogoutIcon fontSize="medium" />
-                        </div>
-                    </div>
+                        </button>
+                    </>
                 ) : (
-                    <NavLink to="/login">
-                        <AccountCircleIcon fontSize='medium' />
+                    <NavLink to="/login" className="header__icon-button">
+                        <AccountCircleIcon fontSize="medium" />
                     </NavLink>
                 )}
             </div>
-
         </header>
     );
 };
