@@ -9,12 +9,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 20px 40px;
     background-color: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: all 0.3s ease; /* Thêm hiệu ứng chuyển đổi */
+}
+
+.header--scrolled {
+    padding: 10px 30px; /* Header nhỏ lại khi cuộn */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Thay đổi bóng */
 }
 
 .header__logo-container {
@@ -29,7 +35,11 @@ body {
     width: 80px;
     height: auto;
     border-radius: 50%;
-    /* Nếu muốn logo tròn */
+    transition: width 0.3s ease; /* Hiệu ứng chuyển đổi kích thước logo */
+}
+
+.header--scrolled .header__logo {
+    width: 60px; /* Thu nhỏ logo khi header nhỏ lại */
 }
 
 .header__nav {
@@ -41,30 +51,34 @@ body {
 .header__menu {
     list-style: none;
     display: flex;
-    gap: 22px;
+    gap: 16px;
     margin: 0;
     padding: 0;
     font-size: 1.1rem;
     font-weight: 600;
+    transition: font-size 0.3s ease; /* Hiệu ứng chuyển đổi font-size */
 }
 
 .header__menu li a {
     text-decoration: none;
     color: black;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển đổi màu */
 }
 
 .header__menu li a:hover {
-    color: #007bff;
-    /* Màu xanh khi hover */
+    color: #007bff; /* Màu xanh khi hover */
+}
+
+.header--scrolled .header__menu li a {
+    font-size: 1rem; /* Thu nhỏ font chữ khi header nhỏ lại */
 }
 
 .header__icons {
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Đảm bảo các icon nằm ngang và cách đều nhau */
-    gap: 20px; /* Khoảng cách giữa các icon */
+    justify-content: flex-end;
+    gap: 16px; /* Khoảng cách giữa các icon */
 }
 
 .header__icon-button {
@@ -73,7 +87,7 @@ body {
     cursor: pointer;
     font-size: 1.5rem;
     color: black; /* Đặt màu mặc định cho các icon là màu đen */
-    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu khi hover */
+    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển đổi màu */
 }
 
 .header__icon-button:hover {
@@ -88,8 +102,10 @@ body {
 .header__icon-button svg:hover {
     color: #007bff; /* Đổi màu khi hover */
 }
+
 .header__cart-icon {
     font-size: 1.5rem;
+    color: black;
 }
 
 .header__cart-count {
@@ -98,30 +114,16 @@ body {
     margin-left: 5px;
 }
 
-
-.header-icon-profile{
-   
+.header-icon-profile {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 20px; 
-}
-.header__cart-icon {
-    color: black;
-}
-
-.header__button--logout {
-    background-color: none;
+    gap: 16px;
 }
 
 .logout:hover {
     color: #0056b3;
     cursor: pointer;
-}
-
-.header__button--logout:hover,
-.header__button--login:hover {
-    background-color: #0056b3;
 }
 
 .dangtin {
@@ -152,8 +154,7 @@ body {
     padding: 10px 0;
     margin: 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: none;
-    /* Ẩn menu con */
+    display: none; /* Ẩn menu con */
     min-width: 150px;
     z-index: 999;
 }
@@ -162,8 +163,8 @@ body {
     display: block;
     padding: 8px 20px;
     text-decoration: none;
-    color: black;
-    font-size: 0.875rem;
+    color: rgb(120, 113, 113);
+    font-size: 0.5rem;
 }
 
 .dropdown__menu li a:hover {
@@ -179,8 +180,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .header__nav {
-        display: none;
-        /* Ẩn menu khi màn hình nhỏ */
+        display: none; /* Ẩn menu khi màn hình nhỏ */
     }
 
     .header__icons {
