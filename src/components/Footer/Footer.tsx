@@ -35,18 +35,11 @@ const Footer = () => {
                 <li className="aw__d1fbfq7g">
                   <a className="aw__d3ltxdb" href="#" target="_blank" rel="noopener noreferrer nofollow">Chính sách bảo mật</a>
                 </li>
-                <li className="aw__d1fbfq7g">
-                  <a className="aw__d3ltxdb" href="#" target="_blank" rel="noopener noreferrer nofollow">Giải quyết tranh chấp</a>
-                </li>
-                <li className="aw__d1fbfq7g">
-                  <a className="aw__d3ltxdb" href="#" target="_blank" rel="noopener noreferrer nofollow">Tuyển dụng</a>
-                </li>
+               
                 <li className="aw__d1fbfq7g">
                   <a className="aw__d3ltxdb" href="#" target="_blank" rel="noopener noreferrer nofollow">Truyền thông</a>
                 </li>
-                <li className="aw__d1fbfq7g">
-                  <a className="aw__d3ltxdb" href="#" target="_blank" rel="noopener noreferrer nofollow">Blog</a>
-                </li>
+                
               </ul>
             </div>
 

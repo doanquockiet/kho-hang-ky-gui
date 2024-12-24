@@ -18,39 +18,41 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         try {
-            // Send login request
+            // Gửi yêu cầu đăng nhập
             const response = await axios.post('http://localhost:8080/api/users/login', {
                 email,
-                password
+                password,
             });
-
+    
             if (response.status === 200) {
                 const token = response.data.token;
-
-                // Save token to localStorage
+    
+                // Lưu token vào localStorage
                 localStorage.setItem('token', token);
-
-                // Fetch user profile with the token
+    
+                // Lấy thông tin hồ sơ người dùng bằng token
                 const profileResponse = await axios.get('http://localhost:8080/api/users/profile', {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
-
+    
                 if (profileResponse.status === 200) {
-                    const { role } = profileResponse.data.user;
-
-                    // Save role to localStorage
+                    const { role, username } = profileResponse.data.user;
+    
+                    // Lưu role và username vào localStorage
                     localStorage.setItem('role', role);
-
+                    localStorage.setItem('username', username);
+    
                     setMessage('Login successful');
-                    navigate('/');
+                    navigate('/'); // Chuyển hướng về trang chủ
                 }
             }
         } catch (error) {
             setMessage('Login failed. Please check your credentials.');
         }
     };
+    
 
     return (
         <div className="container-fluid vh-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: '#e3f2fd' }}>
