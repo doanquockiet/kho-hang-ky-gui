@@ -9,7 +9,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 40px;
+    padding: 15px 40px;
     background-color: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
@@ -74,7 +74,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 20px;
+    gap: 16px;
 }
 
 .header__icon-button {
@@ -94,26 +94,35 @@ body {
 }
 
 .header__cart-icon {
-    position: relative;
+    position: relative; /* Parent of the icon and badge */
+    width: 24px; /* Ensure width matches icon size */
+    height: 24px; /* Ensure height matches icon size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .header__cart-count {
-    position: absolute;
-    top: 38px;
-    right: 127px;
+   
+    margin-bottom: 18px;
     background-color: black;
     color: white;
-    font-size: 12px;
+    font-size: 8px;
     font-weight: bold;
-    border-radius: 50%;
+    border-radius: 50%; /* Make the badge circular */
     padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
 }
+
 
 .header-icon-profile {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 20px;
+    gap: 16px;
 }
 
 .logout:hover {
@@ -145,7 +154,7 @@ body {
     padding: 8px 20px;
     text-decoration: none;
     color: rgb(120, 113, 113);
-    font-size: 0.5rem;
+    font-size: 0.9rem;
 }
 
 .dropdown__menu li a:hover {
@@ -155,6 +164,16 @@ body {
 
 .dropdown:hover .dropdown__menu {
     display: block;
+}
+
+/* Header--scrolled dynamic effects */
+.header--scrolled .header__cart-icon svg {
+    transform: scale(0.9); /* Slightly shrink the icon when scrolling */
+    transition: transform 0.3s ease;
+}
+
+.header--scrolled .header__icon-button {
+    font-size: 1.3rem; /* Optional: shrink icon buttons slightly */
 }
 
 /* Responsive Design */

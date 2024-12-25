@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './styleHeader.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import img from '../../assets/logo.jpg';
+import img from '../../assets/l1.jpg';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -43,7 +43,7 @@ const Header = () => {
 
         fetchCartCount();
 
-        const updateCartCountListener = (event: any) => {
+        const updateCartCountListener = (event) => {
             setCartCount(event.detail);
         };
 
@@ -51,6 +51,19 @@ const Header = () => {
 
         return () => {
             window.removeEventListener('updateCartCount', updateCartCountListener);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            // Cập nhật trạng thái isScrolled nếu vị trí cuộn > 50
+            setIsScrolled(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
         };
     }, []);
 
@@ -63,7 +76,7 @@ const Header = () => {
         navigate('/login');
     };
 
-    const renderTooltip = (props: any) => (
+    const renderTooltip = (props) => (
         <Tooltip id="profile-tooltip" {...props}>
             Xin chào, {username}
         </Tooltip>
