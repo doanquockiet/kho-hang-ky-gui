@@ -248,3 +248,33 @@
         font-size: 12px;
     }
 }
+.sold-out-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(170, 166, 166, 0.922);
+    color: #905258;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .product-card {
+    position: relative;
+  }
+  
+  .product-card img {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .product-card img.grayscale {
+    filter: grayscale(100%);
+  }
+  
