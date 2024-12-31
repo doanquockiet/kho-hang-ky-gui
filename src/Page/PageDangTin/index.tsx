@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { TextField, Button, CircularProgress, Grid, Typography, Box, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { TextField, Button, Grid, Typography, Box, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 
 interface ProductData {
   name: string;
@@ -101,6 +101,7 @@ const AddProductForm: React.FC = () => {
           'Content-Type': 'application/json',
         },
       });
+      console.log("response dangtin", response);
 
       setSuccessMessage('Sản phẩm đã được thêm thành công!');
       resetForm();

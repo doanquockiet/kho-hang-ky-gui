@@ -83,7 +83,7 @@ const CartPage: React.FC = () => {
   // Select or deselect all items
   const handleSelectAll = (isSelected: boolean) => {
     if (isSelected) {
-      const allItemIds = cartItems.map((item) => item.product._id || item.product.id);
+      const allItemIds: any = cartItems.map((item) => item.product._id || item.product.id);
       setSelectedItems(allItemIds);
     } else {
       setSelectedItems([]);
@@ -97,7 +97,7 @@ const CartPage: React.FC = () => {
       return;
     }
 
-    const selectedCartItems = cartItems.filter((item) =>
+    const selectedCartItems = cartItems.filter((item: any) =>
       selectedItems.includes(item.product._id || item.product.id)
     );
 
@@ -136,7 +136,7 @@ const CartPage: React.FC = () => {
             </div>
 
             <ul>
-              {cartItems.map((item, index) => (
+              {cartItems.map((item: any, index) => (
                 <li key={index}>
                   <input
                     type="checkbox"

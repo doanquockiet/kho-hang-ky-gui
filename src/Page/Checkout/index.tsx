@@ -21,6 +21,7 @@ const CheckoutPage: React.FC = () => {
     note: "",
   });
   const [selectedBankCode, setSelectedBankCode] = useState<string>("");
+  console.log("setSelectedBankCode", setSelectedBankCode);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -48,29 +49,29 @@ const CheckoutPage: React.FC = () => {
   };
 
   const calculateTotalPrice = () =>
-    cartItems.reduce((total, item: any) => total + item.product.price * item.quantity, 0);
+    cartItems.reduce((total: any, item: any) => total + item.product.price * item.quantity, 0);
 
   const handleConfirmOrder = async () => {
     const token = localStorage.getItem("token");
-  
+
     if (!token) {
       alert("Bạn cần đăng nhập trước khi tiếp tục.");
       navigate("/login"); // Điều hướng đến trang đăng nhập
       return;
     }
-  
+
     if (!isFormValid()) {
       alert("Vui lòng hoàn thành tất cả các thông tin bắt buộc.");
       return;
     }
-  
+
     const totalAmount = calculateTotalPrice();
-  
+
     if (paymentMethod === "VNPay") {
       try {
         const orderId = `${Date.now()}`; // Unique order ID
         const orderDescription = "Thanh toán đơn hàng tại cửa hàng";
-  
+
         const payload = {
           orderId,
           amount: totalAmount, // Không cần nhân thêm 100, backend đã xử lý
@@ -79,9 +80,9 @@ const CheckoutPage: React.FC = () => {
           ...(selectedBankCode && { bankCode: selectedBankCode }),
           language: "vn",
         };
-  
+
         console.log("Payload gửi đến backend (VNPay):", payload);
-  
+
         const response = await axios.post(
           "http://localhost:8080/api/payment/create_payment_url",
           payload,
@@ -89,7 +90,7 @@ const CheckoutPage: React.FC = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-  
+
         if (response.data.paymentUrl) {
           console.log("VNPay URL:", response.data.paymentUrl);
           // Chuyển hướng đến VNPay
@@ -97,7 +98,7 @@ const CheckoutPage: React.FC = () => {
         } else {
           alert("Không thể tạo đường dẫn thanh toán. Vui lòng thử lại.");
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("[VNPay ERROR]:", error.response || error.message);
         const errorMessage =
           error.response?.data?.message || "Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại!";
@@ -106,29 +107,29 @@ const CheckoutPage: React.FC = () => {
     } else if (paymentMethod === "COD") {
       try {
         const payload = {
-          cartItems: cartItems.map((item) => ({
+          cartItems: cartItems.map((item: any) => ({
             productId: item.product._id || item.product.id,
             quantity: item.quantity,
           })),
           shippingInfo,
           totalAmount,
         };
-  
+
         console.log("Payload gửi đến backend (COD):", payload);
-  
+
         const response = await axios.post("http://localhost:8080/api/checkout", payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
-  
+
         if (response.status === 200) {
           alert("Đơn hàng của bạn đã được xác nhận!");
           navigate("/"); // Điều hướng về trang chính
-  
+
           // Gửi sự kiện để cập nhật giỏ hàng trên Header
           const event = new CustomEvent("updateCartCount", { detail: 0 });
           window.dispatchEvent(event);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("[COD ERROR]:", error.response || error.message);
         const errorMessage =
           error.response?.data?.message || "Có lỗi xảy ra khi xử lý đơn hàng. Vui lòng thử lại!";
@@ -138,9 +139,9 @@ const CheckoutPage: React.FC = () => {
       alert("Vui lòng chọn phương thức thanh toán.");
     }
   };
-  
-  
-  
+
+
+
   return (
     <div>
       <Header />
@@ -252,7 +253,7 @@ const CheckoutPage: React.FC = () => {
               Thanh toán qua VNPay
             </label>
           </div>
-         
+
         </div>
       </div>
 

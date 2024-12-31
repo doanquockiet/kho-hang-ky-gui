@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './styleHeader.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import img from '../../assets/l1.jpg';
@@ -33,7 +33,7 @@ const Header = () => {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     const cartItems = response.data.items || [];
-                    const totalCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+                    const totalCount = cartItems.reduce((total: any , item: any) => total + item.quantity, 0);
                     setCartCount(totalCount);
                 }
             } catch (error) {
@@ -43,7 +43,7 @@ const Header = () => {
 
         fetchCartCount();
 
-        const updateCartCountListener = (event) => {
+        const updateCartCountListener = (event: any) => {
             setCartCount(event.detail);
         };
 
@@ -76,7 +76,7 @@ const Header = () => {
         navigate('/login');
     };
 
-    const renderTooltip = (props) => (
+    const renderTooltip = (props: any) => (
         <Tooltip id="profile-tooltip" {...props}>
             Xin chào, {username}
         </Tooltip>
