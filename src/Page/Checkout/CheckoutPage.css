@@ -1,0 +1,115 @@
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 20px auto;
+  }
+  
+  .order-summary {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-summary ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .summary-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .summary-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-right: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .product-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .summary-total {
+    margin-top: 20px;
+    font-size: 1.2rem;
+  }
+  
+  .shipping-info {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shipping-info input,
+  .shipping-info select,
+  .shipping-info textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .shipping-info textarea {
+    resize: none;
+    height: 80px;
+  }
+  
+  .checkout-footer {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .btn-primary {
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  .btn-primary:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+  }
+
+  /* Căn chỉnh phần chọn phương thức thanh toán */
+  .payment-method {
+   
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .payment-options label {
+    display: block; /* Hiển thị mỗi phương thức trên một dòng */
+    font-size: 1rem;
+    margin-bottom: 10px; /* Khoảng cách giữa các tùy chọn */
+    cursor: pointer;
+  }
+
+  .payment-options input {
+    margin-right: 10px; /* Khoảng cách giữa nút radio và text */
+  }

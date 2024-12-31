@@ -7,20 +7,28 @@ import LoginPage from './Page/Login/index.js';
 import RegisterPage from './Page/Register/index.js';
 import ProfilePage from './Page/UserProfile/Profile.js';
 import CartPage from './Page/Cart/index.js';
+import CheckoutPage from './Page/Checkout/index.js';
+import SuccessPage from './Page/Checkout/SuccessPage.js';
+import FailedPage from './Page/Checkout/FailedPage.js';
+import PaymentResult from './Page/Checkout/PaymentResult.js';
 function App() {
-  
+
 
   return (
     <>
       <Routes>
-      <Route path="/*" element={<HomePage />} />
-      <Route path="/add-product" element={<AddProductForm />} />
-      <Route path="/login" element={<LoginPage/>} />
-      <Route path='/register' element={<RegisterPage/>}/>
-      <Route path="/reset-password" element={<ResetPassword/>} />
-      <Route path="/product/:id" element={<DetailPage />} />
-      <Route path="/profile" element={<ProfilePage/>} />
-      <Route path="/cart" element={<CartPage />} />
+        <Route path="/*" element={<HomePage />} />
+        <Route path="/add-product" element={<AddProductForm />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path='/register' element={<RegisterPage />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/product/:id" element={<DetailPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/failed" element={<FailedPage />} />
+        <Route path="/payment-result" element={<PaymentResult />} />
       </Routes>
     </>
   )

@@ -64,13 +64,37 @@
     color: #555;
   }
   
-  /* Nút hành động */
+
+  
+  /* Delete Button */
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff4d4f; /* Red color for delete icon */
+    transition: color 0.3s ease;
+  }
+  
+  .delete-button:hover {
+    color: #d32f2f; /* Darker red on hover */
+  }
+  .cart-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .cart-page ul li input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
   .cart-actions {
     display: flex;
-    gap: 10px;
-    margin-top: 20px;
     justify-content: flex-end;
+    margin-top: 20px;
   }
+
   
   .cart-actions .btn {
     padding: 10px 20px;
@@ -86,6 +110,7 @@
   .cart-actions .btn-primary {
     background-color: #333;
     color: #fff;
+    width: 15%;
   }
   
   .cart-actions .btn-primary:hover {
@@ -100,16 +125,14 @@
   .cart-actions .btn-secondary:hover {
     background-color: #ddd;
   }
-  /* Delete Button */
-.delete-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #ff4d4f; /* Red color for delete icon */
-    transition: color 0.3s ease;
+  .select-all {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
   }
   
-  .delete-button:hover {
-    color: #d32f2f; /* Darker red on hover */
+  .select-all input {
+    margin-right: 10px;
   }
   

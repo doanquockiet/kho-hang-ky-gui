@@ -144,15 +144,42 @@ const TinMoi: React.FC = () => {
         {filteredProducts.map((product) => (
           <Col xs={12} md={4} lg={2} className="mb-4" key={product.id}>
             <div className="product-card shadow-sm">
-              <Link to={`/product/${product.id}`} className="image-product" state={{ productId: product.id }}>
-                <img src={product.images[0]} alt={product.name} />
+              <Link
+                to={`/product/${product.id}`}
+                className="image-product"
+                state={{ productId: product.id }}
+                style={{ pointerEvents: product.quantity === 0 ? 'none' : 'auto' }}
+              >
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  style={{
+                    filter: product.quantity === 0 ? 'grayscale(100%)' : 'none',
+                  }}
+                />
               </Link>
 
+              {product.quantity === 0 && (
+                <div className="sold-out-overlay">
+                  <span>Sold Out</span>
+                </div>
+              )}
+
               <div className="product-hover-content">
-                <Button variant="dark" size="sm" onClick={() => handleShowQuickView(product)}>
+                <Button
+                  variant="dark"
+                  size="sm"
+                  onClick={() => handleShowQuickView(product)}
+                  disabled={product.quantity === 0}
+                >
                   Xem nhanh
                 </Button>
-                <Button variant="primary" size="sm" onClick={() => handleBuyNow(product.id)}>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => handleBuyNow(product.id)}
+                  disabled={product.quantity === 0}
+                >
                   Mua ngay
                 </Button>
               </div>
@@ -183,14 +210,12 @@ const TinMoi: React.FC = () => {
             ))}
           </div>
           <div className="product-details">
-
             <p>
               <strong>Giá:</strong> {formatPrice(selectedProduct?.price || 0)}
             </p>
             <p>
               <strong>Size:</strong> {selectedProduct?.size}
             </p>
-
             <p>
               <strong>Mô tả:</strong> {selectedProduct?.description}
             </p>
@@ -199,11 +224,11 @@ const TinMoi: React.FC = () => {
             variant="dark"
             className="w-100"
             onClick={() => addToCart(selectedProduct?.id || '')}
+            disabled={selectedProduct?.quantity === 0}
           >
-            Thêm vào giỏ
+            {selectedProduct?.quantity === 0 ? 'Sold Out' : 'Thêm vào giỏ'}
           </Button>
         </Modal.Body>
-
       </Modal>
     </Container>
   );

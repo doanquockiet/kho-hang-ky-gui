@@ -5,10 +5,7 @@ import banner1 from '../../assets/banner/1.jpg'
 import banner2 from '../../assets/banner/2.jpg'
 import banner3 from '../../assets/banner/3.jpg'
 
-import aonu from '../../assets/sanpham/aonu.jpg'
-import quannu from '../../assets/sanpham/quannu.jpg'
-import aonam from '../../assets/sanpham/aonam.jpg'
-import quannam from '../../assets/sanpham/quannam.jpg'
+
 
 
 
@@ -26,7 +23,7 @@ const Banner = () => {
     {
       src: banner3,
       alt: 'biz_veh_Ecom_banner',
-    },
+    }
   ];
 
   return (
