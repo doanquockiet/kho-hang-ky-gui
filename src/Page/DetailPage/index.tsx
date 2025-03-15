@@ -31,7 +31,7 @@ const DetailPage: React.FC = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/products/${productId}`);
+        const response = await axios.get(`https://be-exe-cho-do-cu.onrender.com/api/products/${productId}`);
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product details:', error);
@@ -53,7 +53,7 @@ const DetailPage: React.FC = () => {
       }
 
       await axios.post(
-        "http://localhost:8080/api/cart/add",
+        "https://be-exe-cho-do-cu.onrender.com/api/cart/add",
         { productId, quantity: 1 },
         { headers: { Authorization: `Bearer ${token}` } }
       );

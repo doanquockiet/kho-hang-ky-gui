@@ -29,7 +29,7 @@ const TinMoi: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/products');
+        const response = await axios.get('https://be-exe-cho-do-cu.onrender.com/api/products');
         const fetchedProducts = response.data.map((product: any) => ({
           id: product._id,
           name: product.name,
@@ -84,7 +84,7 @@ const TinMoi: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:8080/api/cart/add',
+        'https://be-exe-cho-do-cu.onrender.com/api/cart/add',
         { productId, quantity: 1 },
         { headers: { Authorization: `Bearer ${token}` } }
       );

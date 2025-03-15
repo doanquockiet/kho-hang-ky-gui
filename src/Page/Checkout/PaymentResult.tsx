@@ -15,7 +15,7 @@ const PaymentResult: React.FC = () => {
         console.log("[DEBUG] Query Params:", queryParams.toString());
   
         const response = await axios.get(
-          `http://localhost:8080/api/payment/vnpay_return?${queryParams.toString()}`
+          `https://be-exe-cho-do-cu.onrender.com/api/payment/vnpay_return?${queryParams.toString()}`
         );
   
         console.log("[DEBUG] Response từ backend:", response.data);

@@ -95,7 +95,7 @@ const AddProductForm: React.FC = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/api/products', productData, {
+      const response = await axios.post('https://be-exe-cho-do-cu.onrender.com/api/products', productData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

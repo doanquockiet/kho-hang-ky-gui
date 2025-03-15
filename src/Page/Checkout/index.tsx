@@ -84,7 +84,7 @@ const CheckoutPage: React.FC = () => {
         console.log("Payload gửi đến backend (VNPay):", payload);
 
         const response = await axios.post(
-          "http://localhost:8080/api/payment/create_payment_url",
+          "https://be-exe-cho-do-cu.onrender.com/api/payment/create_payment_url",
           payload,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -117,7 +117,7 @@ const CheckoutPage: React.FC = () => {
 
         console.log("Payload gửi đến backend (COD):", payload);
 
-        const response = await axios.post("http://localhost:8080/api/checkout", payload, {
+        const response = await axios.post("https://be-exe-cho-do-cu.onrender.com/api/checkout", payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

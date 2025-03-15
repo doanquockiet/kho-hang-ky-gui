@@ -44,7 +44,7 @@ const RegisterPage = () => {
 
     try {
       // Send registration request to the backend
-      const response = await axios.post('http://localhost:8080/api/users/register', {
+      const response = await axios.post('https://be-exe-cho-do-cu.onrender.com/api/users/register', {
         email: formData.email,
         password: formData.password,
         username: formData.name,

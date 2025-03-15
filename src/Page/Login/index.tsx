@@ -19,7 +19,7 @@ const LoginPage = () => {
     const handleLogin = async () => {
         try {
             // Gửi yêu cầu đăng nhập
-            const response = await axios.post('http://localhost:8080/api/users/login', {
+            const response = await axios.post('https://be-exe-cho-do-cu.onrender.com/api/users/login', {
                 email,
                 password,
             });
@@ -31,7 +31,7 @@ const LoginPage = () => {
                 localStorage.setItem('token', token);
     
                 // Lấy thông tin hồ sơ người dùng bằng token
-                const profileResponse = await axios.get('http://localhost:8080/api/users/profile', {
+                const profileResponse = await axios.get('https://be-exe-cho-do-cu.onrender.com/api/users/profile', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

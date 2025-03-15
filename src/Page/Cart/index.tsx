@@ -30,7 +30,7 @@ const CartPage: React.FC = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:8080/api/cart", {
+      const response = await axios.get("https://be-exe-cho-do-cu.onrender.com/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -57,7 +57,7 @@ const CartPage: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.delete(
-        `http://localhost:8080/api/cart/remove/${productId}`,
+        `https://be-exe-cho-do-cu.onrender.com/api/cart/remove/${productId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

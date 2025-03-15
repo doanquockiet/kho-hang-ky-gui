@@ -12,7 +12,7 @@ const ProfilePage = () => {
         const fetchProfile = async () => {
             const token = localStorage.getItem('token');
             try {
-                const response = await axios.get('http://localhost:8080/api/users/profile', {
+                const response = await axios.get('https://be-exe-cho-do-cu.onrender.com/api/users/profile', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUser(response.data.user);
