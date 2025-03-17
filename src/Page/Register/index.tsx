@@ -1,7 +1,10 @@
-import { useState } from "react";
-import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from "react-bootstrap";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+"use client"
+
+import { useState } from "react"
+import { Container, Row, Col, Form, Button, Alert, Spinner } from "react-bootstrap"
+import axios from "axios"
+import { useNavigate, Link } from "react-router-dom"
+import "./register-page.css"
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -10,43 +13,43 @@ const RegisterPage = () => {
     password: "",
     confirmPassword: "",
     agreeToTerms: false,
-  });
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  })
+  const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   // URL API Render
-  const API_URL = "https://be-exe-cho-do-cu.onrender.com/api/users/register";
+  const API_URL = "https://be-exe-cho-do-cu.onrender.com/api/users/register"
 
   // Handle input changes
   const handleChange = (e: any) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
-    });
-  };
+    })
+  }
 
   // Handle form submission
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setError("");
-    setSuccessMessage("");
-    setLoading(true);
+    e.preventDefault()
+    setError("")
+    setSuccessMessage("")
+    setLoading(true)
 
     // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
-      setError("Mật khẩu không khớp");
-      setLoading(false);
-      return;
+      setError("Mật khẩu không khớp")
+      setLoading(false)
+      return
     }
 
     // Check if terms are agreed to
     if (!formData.agreeToTerms) {
-      setError("Bạn cần đồng ý với điều khoản dịch vụ");
-      setLoading(false);
-      return;
+      setError("Bạn cần đồng ý với điều khoản dịch vụ")
+      setLoading(false)
+      return
     }
 
     try {
@@ -62,123 +65,157 @@ const RegisterPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
-      );
+        },
+      )
 
       // Show success message and redirect to login after a short delay
-      setSuccessMessage(response.data.message || "Đăng ký thành công!");
-      setTimeout(() => navigate("/login"), 2000);
+      setSuccessMessage(response.data.message || "Đăng ký thành công!")
+      setTimeout(() => navigate("/login"), 2000)
     } catch (error: any) {
       // Xử lý lỗi cụ thể từ backend hoặc lỗi mạng
       if (error.response) {
-        setError(error.response.data.message || "Lỗi đăng ký");
+        setError(error.response.data.message || "Lỗi đăng ký")
       } else if (error.request) {
-        setError("Không thể kết nối đến server. Vui lòng thử lại!");
+        setError("Không thể kết nối đến server. Vui lòng thử lại!")
       } else {
-        setError("Đã xảy ra lỗi không xác định");
+        setError("Đã xảy ra lỗi không xác định")
       }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
-    <section className="vh-100" style={{ backgroundColor: "#eee" }}>
-      <Container className="h-100">
-        <Row className="d-flex justify-content-center align-items-center h-100">
-          <Col lg={12} xl={11}>
-            <Card style={{ borderRadius: "25px" }} className="text-black">
-              <Card.Body className="p-md-5">
-                <Row className="justify-content-center">
-                  <Col md={10} lg={6} xl={5} className="order-2 order-lg-1">
-                    <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Đăng ký</p>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    {successMessage && <Alert variant="success">{successMessage}</Alert>}
+    <div className="register-page">
+      <Container>
+        <div className="register-card">
+          <div className="register-header">
+            <h1>Tạo tài khoản mới</h1>
+            <p>Đăng ký để trải nghiệm dịch vụ của chúng tôi</p>
+          </div>
 
-                    <Form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
-                      <Form.Group className="mb-4">
-                        <Form.Label>Họ và Tên</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Nhập tên của bạn"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                        />
-                      </Form.Group>
+          {error && (
+            <Alert variant="danger" className="register-alert">
+              {error}
+            </Alert>
+          )}
+          {successMessage && (
+            <Alert variant="success" className="register-alert">
+              {successMessage}
+            </Alert>
+          )}
 
-                      <Form.Group className="mb-4">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                          type="email"
-                          placeholder="Nhập email của bạn"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-4">
-                        <Form.Label>Mật khẩu</Form.Label>
-                        <Form.Control
-                          type="password"
-                          placeholder="Nhập mật khẩu"
-                          name="password"
-                          value={formData.password}
-                          onChange={handleChange}
-                          required
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-4">
-                        <Form.Label>Nhập lại mật khẩu</Form.Label>
-                        <Form.Control
-                          type="password"
-                          placeholder="Nhập lại mật khẩu"
-                          name="confirmPassword"
-                          value={formData.confirmPassword}
-                          onChange={handleChange}
-                          required
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-4 form-check">
-                        <Form.Check
-                          type="checkbox"
-                          name="agreeToTerms"
-                          checked={formData.agreeToTerms}
-                          onChange={handleChange}
-                          required
-                        />
-                        <Form.Label className="ms-2">
-                          Tôi đồng ý với <a href="#!">Điều khoản Dịch vụ</a>
-                        </Form.Label>
-                      </Form.Group>
-
-                      <div className="d-flex justify-content-center">
-                        <Button type="submit" variant="primary" size="lg" disabled={loading}>
-                          {loading ? <Spinner animation="border" size="sm" /> : "Đăng ký"}
-                        </Button>
-                      </div>
-                    </Form>
-                  </Col>
-                  <Col md={10} lg={6} xl={7} className="d-flex align-items-center order-1 order-lg-2">
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                      className="img-fluid"
-                      alt="Hình minh họa"
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              <Col xs={12}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Họ và Tên</Form.Label>
+                  <div className="input-with-icon">
+                    <i className="bi bi-person-fill"></i>
+                    <Form.Control
+                      type="text"
+                      placeholder="Nhập tên của bạn"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
                     />
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </section>
-  );
-};
+                  </div>
+                </Form.Group>
+              </Col>
 
-export default RegisterPage;
+              <Col xs={12}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Email</Form.Label>
+                  <div className="input-with-icon">
+                    <i className="bi bi-envelope-fill"></i>
+                    <Form.Control
+                      type="email"
+                      placeholder="Nhập email của bạn"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Mật khẩu</Form.Label>
+                  <div className="input-with-icon">
+                    <i className="bi bi-lock-fill"></i>
+                    <Form.Control
+                      type="password"
+                      placeholder="Nhập mật khẩu"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Xác nhận mật khẩu</Form.Label>
+                  <div className="input-with-icon">
+                    <i className="bi bi-lock-fill"></i>
+                    <Form.Control
+                      type="password"
+                      placeholder="Nhập lại mật khẩu"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12}>
+                <Form.Group className="mb-4 terms-checkbox">
+                  <Form.Check
+                    type="checkbox"
+                    id="terms-checkbox"
+                    name="agreeToTerms"
+                    checked={formData.agreeToTerms}
+                    onChange={handleChange}
+                    required
+                  />
+                  <Form.Label htmlFor="terms-checkbox">
+                    Tôi đồng ý với <a href="#!">Điều khoản Dịch vụ</a> và <a href="#!">Chính sách Bảo mật</a>
+                  </Form.Label>
+                </Form.Group>
+              </Col>
+
+              <Col xs={12}>
+                <Button type="submit" className="register-button" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Spinner animation="border" size="sm" />
+                      <span className="ms-2">Đang xử lý...</span>
+                    </>
+                  ) : (
+                    "Đăng ký ngay"
+                  )}
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+
+          <div className="register-footer">
+            <p>
+              Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
+            </p>
+          </div>
+        </div>
+      </Container>
+    </div>
+  )
+}
+
+export default RegisterPage
+
