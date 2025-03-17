@@ -35,11 +35,11 @@ const Footer = () => {
                 <li className="aw__d1fbfq7g">
                   <a className="aw__d3ltxdb" href="#" target="_blank" rel="noopener noreferrer nofollow">Chính sách bảo mật</a>
                 </li>
-               
+
                 <li className="aw__d1fbfq7g">
                   <a className="aw__d3ltxdb" href="#" target="_blank" rel="noopener noreferrer nofollow">Truyền thông</a>
                 </li>
-                
+
               </ul>
             </div>
 
@@ -49,24 +49,24 @@ const Footer = () => {
                 <p className="aw__h1klxoqy">Liên kết</p>
                 <ul className="aw__ue6m5w0">
                   <li className="aw__d1fbfq7g">
-                    <a className="aw__d3ltxdb" href="https://www.facebook.com/wanfreelancefotone" target="_blank" rel="noopener noreferrer nofollow">
+                    <a className="aw__d3ltxdb" href="https://www.facebook.com/cudocho/" target="_blank" rel="noopener noreferrer nofollow">
                       <img className="aw__d1m9rhxg" alt="Facebook" width="32" height="32" src="https://static.chotot.com/storage/default/facebook.svg" />
                     </a>
                   </li>
                   <li className="aw__d1fbfq7g">
-                    <a className="aw__d3ltxdb" href="https://www.facebook.com/wanfreelancefotone" target="_blank" rel="noopener noreferrer nofollow">
+                    <a className="aw__d3ltxdb" href="https://www.facebook.com/cudocho/" target="_blank" rel="noopener noreferrer nofollow">
                       <img className="aw__d1m9rhxg" alt="Youtube" width="32" height="32" src="https://static.chotot.com/storage/default/youtube.svg" />
                     </a>
                   </li>
                   <li className="aw__d1fbfq7g">
-                    <a className="aw__d3ltxdb" href="https://www.facebook.com/wanfreelancefotone" target="_blank" rel="noopener noreferrer nofollow">
+                    <a className="aw__d3ltxdb" href="https://www.facebook.com/cudocho/" target="_blank" rel="noopener noreferrer nofollow">
                       <img className="aw__d1m9rhxg" alt="LinkedIn" width="32" height="32" src="https://static.chotot.com/storage/default/linkedin.svg" />
                     </a>
                   </li>
                 </ul>
               </div>
 
-             
+
             </div>
           </section>
         </div>
