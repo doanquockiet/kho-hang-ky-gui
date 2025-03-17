@@ -96,6 +96,9 @@ const DetailPage: React.FC = () => {
     return <p>Loading product details...</p>;
   }
 
+  const formatPrice = (price: any) =>
+    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+
   return (
     <div>
       <Header />
@@ -132,14 +135,14 @@ const DetailPage: React.FC = () => {
         <div className="product-info-form">
           <h2 className="product-title">{product.name}</h2>
           <div className="rating-stars">{renderStars(product.rating)}</div>
-          <p className="product-price-form">{product.price} VNĐ</p>
+          <p className="product-price-form">{formatPrice(product.price)} VNĐ</p>
           <p>{product.description}</p>
           <p><strong>Số lượng:</strong> {product.quantity}</p>
           <p><strong>Size:</strong> {product.size}</p>
           <p><strong>Danh mục:</strong> {product.category}</p>
           <div className="button-container">
-            <button className="btn w-100 mb-2" onClick={handleBuyNow}>Mua Ngay</button>
-            <button className="btn btn-secondary w-100" onClick={toggleModal}>
+            <button className="btn w-70 mb-2" onClick={handleBuyNow}>Mua Ngay</button><br />
+            <button className="btn btn-secondary w-70" onClick={toggleModal}>
               Thử Ngay Tại Store
             </button>
           </div>

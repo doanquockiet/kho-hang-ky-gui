@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer/Footer";
-import "./CheckoutPage.css";
+"use client"
+
+import type React from "react"
+import { useState, useEffect } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import axios from "axios"
+import Header from "../../components/Header"
+import Footer from "../../components/Footer/Footer"
+import "./CheckoutPage.css"
 
 const CheckoutPage: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const cartItems = location.state?.cartItems || [];
-  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const location = useLocation()
+  const navigate = useNavigate()
+  const cartItems = location.state?.cartItems || []
+  const [paymentMethod, setPaymentMethod] = useState<string>("")
   const [shippingInfo, setShippingInfo] = useState({
     fullName: "",
     email: "",
@@ -19,24 +22,112 @@ const CheckoutPage: React.FC = () => {
     district: "",
     ward: "",
     note: "",
-  });
-  const [selectedBankCode, setSelectedBankCode] = useState<string>("");
-  console.log("setSelectedBankCode", setSelectedBankCode);
+  })
+  const [selectedBankCode, setSelectedBankCode] = useState<string>("")
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setShippingInfo({ ...shippingInfo, [name]: value });
-  };
+  // State cho dữ liệu địa chỉ
+  const [provinces, setProvinces] = useState<any[]>([])
+  const [districts, setDistricts] = useState<any[]>([])
+  const [wards, setWards] = useState<any[]>([])
+  const [loading, setLoading] = useState({
+    provinces: false,
+    districts: false,
+    wards: false,
+  })
+
+  // Fetch tỉnh/thành phố khi component được tải
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      setLoading((prev) => ({ ...prev, provinces: true }))
+      try {
+        const response = await axios.get("https://provinces.open-api.vn/api/p/")
+        setProvinces(response.data)
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu tỉnh/thành phố:", error)
+      } finally {
+        setLoading((prev) => ({ ...prev, provinces: false }))
+      }
+    }
+
+    fetchProvinces()
+  }, [])
+
+  // Fetch quận/huyện khi tỉnh/thành phố thay đổi
+  useEffect(() => {
+    if (shippingInfo.city) {
+      const fetchDistricts = async () => {
+        setLoading((prev) => ({ ...prev, districts: true }))
+        try {
+          const provinceCode = provinces.find((p) => p.name === shippingInfo.city)?.code
+          if (provinceCode) {
+            const response = await axios.get(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
+            setDistricts(response.data.districts || [])
+          }
+        } catch (error) {
+          console.error("Lỗi khi lấy dữ liệu quận/huyện:", error)
+        } finally {
+          setLoading((prev) => ({ ...prev, districts: false }))
+        }
+      }
+
+      fetchDistricts()
+      // Reset quận/huyện và phường/xã khi thay đổi tỉnh/thành phố
+      setShippingInfo((prev) => ({ ...prev, district: "", ward: "" }))
+      setWards([])
+    }
+  }, [shippingInfo.city, provinces])
+
+  // Fetch phường/xã khi quận/huyện thay đổi
+  useEffect(() => {
+    if (shippingInfo.district) {
+      const fetchWards = async () => {
+        setLoading((prev) => ({ ...prev, wards: true }))
+        try {
+          const districtCode = districts.find((d) => d.name === shippingInfo.district)?.code
+          if (districtCode) {
+            const response = await axios.get(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
+            setWards(response.data.wards || [])
+          }
+        } catch (error) {
+          console.error("Lỗi khi lấy dữ liệu phường/xã:", error)
+        } finally {
+          setLoading((prev) => ({ ...prev, wards: false }))
+        }
+      }
+
+      fetchWards()
+      // Reset phường/xã khi thay đổi quận/huyện
+      setShippingInfo((prev) => ({ ...prev, ward: "" }))
+    }
+  }, [shippingInfo.district, districts])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setShippingInfo({ ...shippingInfo, [name]: value })
+  }
 
   const handlePaymentMethodChange = (method: string) => {
-    setPaymentMethod(method);
-  };
+    setPaymentMethod(method)
+  }
 
+  // Thêm console.log để kiểm tra trạng thái của form
   const isFormValid = () => {
-    const { fullName, email, phone, address, city, district, ward } = shippingInfo;
-    return (
+    const { fullName, email, phone, address, city, district, ward } = shippingInfo
+
+    // Log các giá trị để debug
+    console.log("Form validation:", {
+      fullName: fullName.trim() ? "✓" : "✗",
+      email: email.includes("@") ? "✓" : "✗",
+      phone: phone.match(/^\d{10,11}$/) ? "✓" : "✗",
+      address: address.trim() ? "✓" : "✗",
+      city: city ? "✓" : "✗",
+      district: district ? "✓" : "✗",
+      ward: ward ? "✓" : "✗",
+      paymentMethod: paymentMethod ? "✓" : "✗",
+    })
+
+    // Thêm điều kiện kiểm tra riêng lẻ để dễ debug
+    const isValid =
       fullName.trim() &&
       email.includes("@") &&
       phone.match(/^\d{10,11}$/) &&
@@ -45,32 +136,33 @@ const CheckoutPage: React.FC = () => {
       district &&
       ward &&
       paymentMethod
-    );
-  };
+
+    return isValid
+  }
 
   const calculateTotalPrice = () =>
-    cartItems.reduce((total: any, item: any) => total + item.product.price * item.quantity, 0);
+    cartItems.reduce((total: any, item: any) => total + item.product.price * item.quantity, 0)
 
   const handleConfirmOrder = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
 
     if (!token) {
-      alert("Bạn cần đăng nhập trước khi tiếp tục.");
-      navigate("/login"); // Điều hướng đến trang đăng nhập
-      return;
+      alert("Bạn cần đăng nhập trước khi tiếp tục.")
+      navigate("/login") // Điều hướng đến trang đăng nhập
+      return
     }
 
     if (!isFormValid()) {
-      alert("Vui lòng hoàn thành tất cả các thông tin bắt buộc.");
-      return;
+      alert("Vui lòng hoàn thành tất cả các thông tin bắt buộc.")
+      return
     }
 
-    const totalAmount = calculateTotalPrice();
+    const totalAmount = calculateTotalPrice()
 
     if (paymentMethod === "VNPay") {
       try {
-        const orderId = `${Date.now()}`; // Unique order ID
-        const orderDescription = "Thanh toán đơn hàng tại cửa hàng";
+        const orderId = `${Date.now()}` // Unique order ID
+        const orderDescription = "Thanh toán đơn hàng tại cửa hàng"
 
         const payload = {
           orderId,
@@ -79,30 +171,29 @@ const CheckoutPage: React.FC = () => {
           shippingInfo,
           ...(selectedBankCode && { bankCode: selectedBankCode }),
           language: "vn",
-        };
+        }
 
-        console.log("Payload gửi đến backend (VNPay):", payload);
+        console.log("Payload gửi đến backend (VNPay):", payload)
 
         const response = await axios.post(
           "https://be-exe-cho-do-cu.onrender.com/api/payment/create_payment_url",
           payload,
           {
             headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+          },
+        )
 
         if (response.data.paymentUrl) {
-          console.log("VNPay URL:", response.data.paymentUrl);
+          console.log("VNPay URL:", response.data.paymentUrl)
           // Chuyển hướng đến VNPay
-          window.location.href = response.data.paymentUrl;
+          window.location.href = response.data.paymentUrl
         } else {
-          alert("Không thể tạo đường dẫn thanh toán. Vui lòng thử lại.");
+          alert("Không thể tạo đường dẫn thanh toán. Vui lòng thử lại.")
         }
       } catch (error: any) {
-        console.error("[VNPay ERROR]:", error.response || error.message);
-        const errorMessage =
-          error.response?.data?.message || "Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại!";
-        alert(errorMessage);
+        console.error("[VNPay ERROR]:", error.response || error.message)
+        const errorMessage = error.response?.data?.message || "Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại!"
+        alert(errorMessage)
       }
     } else if (paymentMethod === "COD") {
       try {
@@ -113,34 +204,31 @@ const CheckoutPage: React.FC = () => {
           })),
           shippingInfo,
           totalAmount,
-        };
+        }
 
-        console.log("Payload gửi đến backend (COD):", payload);
+        console.log("Payload gửi đến backend (COD):", payload)
 
         const response = await axios.post("https://be-exe-cho-do-cu.onrender.com/api/checkout", payload, {
           headers: { Authorization: `Bearer ${token}` },
-        });
+        })
 
         if (response.status === 200) {
-          alert("Đơn hàng của bạn đã được xác nhận!");
-          navigate("/"); // Điều hướng về trang chính
+          alert("Đơn hàng của bạn đã được xác nhận!")
+          navigate("/") // Điều hướng về trang chính
 
           // Gửi sự kiện để cập nhật giỏ hàng trên Header
-          const event = new CustomEvent("updateCartCount", { detail: 0 });
-          window.dispatchEvent(event);
+          const event = new CustomEvent("updateCartCount", { detail: 0 })
+          window.dispatchEvent(event)
         }
       } catch (error: any) {
-        console.error("[COD ERROR]:", error.response || error.message);
-        const errorMessage =
-          error.response?.data?.message || "Có lỗi xảy ra khi xử lý đơn hàng. Vui lòng thử lại!";
-        alert(errorMessage);
+        console.error("[COD ERROR]:", error.response || error.message)
+        const errorMessage = error.response?.data?.message || "Có lỗi xảy ra khi xử lý đơn hàng. Vui lòng thử lại!"
+        alert(errorMessage)
       }
     } else {
-      alert("Vui lòng chọn phương thức thanh toán.");
+      alert("Vui lòng chọn phương thức thanh toán.")
     }
-  };
-
-
+  }
 
   return (
     <div>
@@ -151,11 +239,11 @@ const CheckoutPage: React.FC = () => {
           <ul>
             {cartItems.map((item: any, index: number) => (
               <li key={index} className="summary-item">
-                <img src={item.product.images[0]} alt={item.product.name} />
+                <img src={item.product.images[0] || "/placeholder.svg"} alt={item.product.name} />
                 <div>
                   <p className="product-name">{item.product.name}</p>
                   <p>Số lượng: {item.quantity}</p>
-                  <p>Giá: {parseInt(item.product.price).toLocaleString()} VND</p>
+                  <p>Giá: {Number.parseInt(item.product.price).toLocaleString()} VND</p>
                 </div>
               </li>
             ))}
@@ -204,24 +292,67 @@ const CheckoutPage: React.FC = () => {
               onChange={handleInputChange}
               required
             />
-            <select name="city" value={shippingInfo.city} onChange={handleInputChange} required>
-              <option value="">Chọn Tỉnh/ Thành phố</option>
-              <option value="Hà Nội">Hà Nội</option>
-              <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
-              <option value="Đà Nẵng">Đà Nẵng</option>
-            </select>
-            <select name="district" value={shippingInfo.district} onChange={handleInputChange} required>
-              <option value="">Chọn Quận/ Huyện</option>
-              <option value="Quận 1">Quận 1</option>
-              <option value="Quận 2">Quận 2</option>
-              <option value="Quận 3">Quận 3</option>
-            </select>
-            <select name="ward" value={shippingInfo.ward} onChange={handleInputChange} required>
-              <option value="">Chọn Phường/ Xã</option>
-              <option value="Phường A">Phường A</option>
-              <option value="Phường B">Phường B</option>
-              <option value="Phường C">Phường C</option>
-            </select>
+
+            {/* Dropdown chọn Tỉnh/Thành phố */}
+            <div className="select-container">
+              <select
+                name="city"
+                value={shippingInfo.city}
+                onChange={handleInputChange}
+                required
+                className="address-select"
+                disabled={loading.provinces}
+              >
+                <option value="">Chọn Tỉnh/ Thành phố</option>
+                {provinces.map((province) => (
+                  <option key={province.code} value={province.name}>
+                    {province.name}
+                  </option>
+                ))}
+              </select>
+              {loading.provinces && <div className="loading-spinner"></div>}
+            </div>
+
+            {/* Dropdown chọn Quận/Huyện */}
+            <div className="select-container">
+              <select
+                name="district"
+                value={shippingInfo.district}
+                onChange={handleInputChange}
+                required
+                disabled={!shippingInfo.city || loading.districts}
+                className="address-select"
+              >
+                <option value="">Chọn Quận/ Huyện</option>
+                {districts.map((district) => (
+                  <option key={district.code} value={district.name}>
+                    {district.name}
+                  </option>
+                ))}
+              </select>
+              {loading.districts && <div className="loading-spinner"></div>}
+            </div>
+
+            {/* Dropdown chọn Phường/Xã */}
+            <div className="select-container">
+              <select
+                name="ward"
+                value={shippingInfo.ward}
+                onChange={handleInputChange}
+                required
+                disabled={!shippingInfo.district || loading.wards}
+                className="address-select"
+              >
+                <option value="">Chọn Phường/ Xã</option>
+                {wards.map((ward) => (
+                  <option key={ward.code} value={ward.name}>
+                    {ward.name}
+                  </option>
+                ))}
+              </select>
+              {loading.wards && <div className="loading-spinner"></div>}
+            </div>
+
             <textarea
               placeholder="Ghi chú (Không bắt buộc)"
               name="note"
@@ -235,12 +366,7 @@ const CheckoutPage: React.FC = () => {
           <h2>Chọn phương thức thanh toán</h2>
           <div className="payment-options">
             <label>
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="COD"
-                onChange={() => handlePaymentMethodChange("COD")}
-              />
+              <input type="radio" name="paymentMethod" value="COD" onChange={() => handlePaymentMethodChange("COD")} />
               Thanh toán khi nhận hàng (COD)
             </label>
             <label>
@@ -253,22 +379,23 @@ const CheckoutPage: React.FC = () => {
               Thanh toán qua VNPay
             </label>
           </div>
-
         </div>
       </div>
 
       <div className="checkout-footer">
-        <button
-          className="btn btn-primary"
-          onClick={handleConfirmOrder}
-          disabled={!isFormValid()}
-        >
+        <div className="validation-status">
+          {!isFormValid() && (
+            <div className="validation-message">Vui lòng điền đầy đủ thông tin để tiếp tục thanh toán</div>
+          )}
+        </div>
+        <button className="btn btn-primary" onClick={handleConfirmOrder} disabled={!isFormValid()}>
           Xác nhận thanh toán
         </button>
       </div>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default CheckoutPage;
+export default CheckoutPage
+
