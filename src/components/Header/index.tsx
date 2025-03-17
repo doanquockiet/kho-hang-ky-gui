@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './styleHeader.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import img from '../../assets/l1.jpg';
+import img from '../../assets/logo.jpg';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -33,7 +33,7 @@ const Header = () => {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     const cartItems = response.data.items || [];
-                    const totalCount = cartItems.reduce((total: any , item: any) => total + item.quantity, 0);
+                    const totalCount = cartItems.reduce((total: any, item: any) => total + item.quantity, 0);
                     setCartCount(totalCount);
                 }
             } catch (error) {
@@ -96,17 +96,7 @@ const Header = () => {
                     <li><a href="/deals">DECEMBER DEAL</a></li>
                     <li className="dropdown">
                         <a href="#" className="dropdown__toggle">SẢN PHẨM</a>
-                        <ul className="dropdown__menu">
-                            <li><a href="#">JACKETS</a></li>
-                            <li><a href="#">HOODIE & SWEATER</a></li>
-                            <li><a href="#">PANTS</a></li>
-                            <li><a href="#">SHIRTS</a></li>
-                            <li><a href="#">JEANS</a></li>
-                            <li><a href="#">SHORTS</a></li>
-                            <li><a href="#">T-SHIRT</a></li>
-                            <li><a href="#">POLO</a></li>
-                            <li><a href="#">ACCESSORIES</a></li>
-                        </ul>
+
                     </li>
                     <li><a href="/outlet">NEW POST</a></li>
                 </ul>
