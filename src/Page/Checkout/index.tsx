@@ -35,6 +35,7 @@ const CheckoutPage: React.FC = () => {
     wards: false,
   })
 
+  console.log(setSelectedBankCode)
   // Fetch tỉnh/thành phố khi component được tải
   useEffect(() => {
     const fetchProvinces = async () => {
